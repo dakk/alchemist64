@@ -1,7 +1,7 @@
 #ifndef DRAW_H__
 #define DRAW_H__
 
-#define GRID_PADDING_Y	4
+#define GRID_PADDING_Y	5
 #define GRID_PADDING_X  1
 #define CELL_SIZE	2
 
