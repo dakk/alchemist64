@@ -1,7 +1,8 @@
-#include "logic.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <time.h>
+
+#include "logic.h"
 
 char grid[GRID_HEIGHT][GRID_WIDTH];
 int score = 0;

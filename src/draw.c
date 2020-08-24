@@ -1,14 +1,16 @@
 #include <stdio.h>
 #include <conio.h>
+
 #include "logic.h"
+#include "draw.h"
 
 void draw_curblock() {
 	char a,b,c,d;
 
 	textcolor(15);
 	
-	chlinexy (GRID_PADDING_X+1, 0, GRID_WIDTH);
-	chlinexy (GRID_PADDING_X+1, 1, GRID_WIDTH);
+	cclearxy (GRID_PADDING_X+1, 0, GRID_WIDTH * CELL_SIZE);
+	cclearxy (GRID_PADDING_X+1, 1, GRID_WIDTH * CELL_SIZE);
 	
 	switch(curblock_rot) {
 		case 0: a = curblock[0]; b = curblock[1]; c = ' '; d = ' '; break;
@@ -17,10 +19,10 @@ void draw_curblock() {
 		case 3: b = curblock[0]; a = curblock[1]; c = ' '; d = ' '; break;
 	}
 		
-	cputcxy(GRID_PADDING_X+curblock_pos+1, 0, a);	
-	cputcxy(GRID_PADDING_X+curblock_pos+2, 0, b);	
-	cputcxy(GRID_PADDING_X+curblock_pos+1, 1, c);	
-	cputcxy(GRID_PADDING_X+curblock_pos+2, 1, d);	
+	cputcxy((GRID_PADDING_X+curblock_pos+1)*CELL_SIZE, 0, a);	
+	cputcxy((GRID_PADDING_X+curblock_pos+1)*CELL_SIZE+CELL_SIZE, 0, b);	
+	cputcxy((GRID_PADDING_X+curblock_pos+1)*CELL_SIZE, CELL_SIZE, c);	
+	cputcxy((GRID_PADDING_X+curblock_pos+1)*CELL_SIZE+CELL_SIZE, CELL_SIZE, d);	
 }
 
 void draw_game_grid () {
@@ -28,10 +30,10 @@ void draw_game_grid () {
 	revers(1);
 	textcolor(15);
 	
-	chlinexy (GRID_PADDING_X, GRID_PADDING_Y, GRID_WIDTH+2);
-	chlinexy (GRID_PADDING_X, GRID_PADDING_Y+GRID_HEIGHT+1, GRID_WIDTH+2);
-	cvlinexy (GRID_PADDING_X, 0, GRID_HEIGHT+2+GRID_PADDING_Y);
-	cvlinexy (GRID_PADDING_X+GRID_WIDTH+1, 0, GRID_HEIGHT+2+GRID_PADDING_Y);
+	chlinexy (GRID_PADDING_X, GRID_PADDING_Y, 2 + (GRID_WIDTH) * CELL_SIZE);
+	chlinexy (GRID_PADDING_X, (GRID_PADDING_Y+GRID_HEIGHT+1)*CELL_SIZE, 2 + (GRID_WIDTH)*CELL_SIZE);
+	cvlinexy (GRID_PADDING_X, 0, GRID_PADDING_Y + 4 + (GRID_HEIGHT) * CELL_SIZE);
+	cvlinexy (GRID_PADDING_X+(GRID_WIDTH+1)*CELL_SIZE, 0, GRID_PADDING_Y + 4 + (GRID_HEIGHT)*CELL_SIZE);
 	
 	revers(0);
 
@@ -41,12 +43,12 @@ void draw_game_grid () {
 			if (grid[j][i] != 0) {
 				revers(1);
 				textcolor(grid[j][i]);
-				cputcxy(GRID_PADDING_X+i+1, GRID_PADDING_Y+j+1, grid[j][i] + 64);
+				cputcxy((GRID_PADDING_X+i+1)*CELL_SIZE, (GRID_PADDING_Y+j+1)*CELL_SIZE, grid[j][i] + 64);
 				revers(0);
 				textcolor(15);
 			}
 			else 
-				cputcxy(GRID_PADDING_X+i+1, GRID_PADDING_Y+j+1, ' ');			
+				cputcxy((GRID_PADDING_X+i+1)*CELL_SIZE, (GRID_PADDING_Y+j+1)*CELL_SIZE, ' ');			
 		}
 	}
 }

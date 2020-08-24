@@ -2,8 +2,6 @@
 #define LOGIC_H__
 
 
-#define GRID_PADDING_Y	2
-#define GRID_PADDING_X  3
 #define GRID_HEIGHT 	8
 #define GRID_WIDTH 		10
 
