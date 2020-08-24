@@ -4,6 +4,26 @@
 #include "logic.h"
 #include "draw.h"
 
+void draw_cell (int x, int y, char v) {
+	if (v == 0) {
+		textcolor(4);
+		cputcxy(x, y, ' ');
+		cputcxy(x+1, y, ' ');
+		cputcxy(x+1, y+1, ' ');
+		cputcxy(x, y+1, ' ');
+		return;
+	}
+	
+	revers(1);
+	textcolor(v);
+	cputcxy(x, y, 64+v);
+	cputcxy(x+1, y, 64+v);
+	cputcxy(x+1, y+1, 64+v);
+	cputcxy(x, y+1, 64+v);
+	revers(0);
+	textcolor(15);
+}
+
 void draw_curblock() {
 	char a,b,c,d;
 
@@ -21,10 +41,10 @@ void draw_curblock() {
 		case 3: b = curblock[0]; a = curblock[1]; c = ' '; d = ' '; break;
 	}
 		
-	cputcxy((GRID_PADDING_X+curblock_pos+1)*CELL_SIZE, 0, a);	
-	cputcxy((GRID_PADDING_X+curblock_pos+1)*CELL_SIZE+CELL_SIZE, 0, b);	
-	cputcxy((GRID_PADDING_X+curblock_pos+1)*CELL_SIZE, CELL_SIZE, c);	
-	cputcxy((GRID_PADDING_X+curblock_pos+1)*CELL_SIZE+CELL_SIZE, CELL_SIZE, d);	
+	draw_cell (((GRID_PADDING_X+curblock_pos)*CELL_SIZE), 0, a);
+	draw_cell ((GRID_PADDING_X+curblock_pos)*CELL_SIZE+CELL_SIZE, 0, b);	
+	draw_cell ((GRID_PADDING_X+curblock_pos)*CELL_SIZE, CELL_SIZE, c);	
+	draw_cell ((GRID_PADDING_X+curblock_pos)*CELL_SIZE+CELL_SIZE, CELL_SIZE, d);	
 }
 
 void draw_game_grid () {
@@ -32,25 +52,17 @@ void draw_game_grid () {
 	revers(1);
 	textcolor(15);
 	
-	chlinexy (GRID_PADDING_X, GRID_PADDING_Y, 3 + (GRID_WIDTH) * CELL_SIZE);
-	chlinexy (GRID_PADDING_X, (GRID_PADDING_Y+GRID_HEIGHT+1)*CELL_SIZE, 3 + (GRID_WIDTH)*CELL_SIZE);
+	chlinexy (GRID_PADDING_X, GRID_PADDING_Y, 2 + (GRID_WIDTH) * CELL_SIZE);
+	chlinexy (GRID_PADDING_X, 2+(GRID_PADDING_Y+GRID_HEIGHT)*CELL_SIZE, 2 + (GRID_WIDTH)*CELL_SIZE);
 	cvlinexy (GRID_PADDING_X, 0, GRID_PADDING_Y + (GRID_HEIGHT + 3) * CELL_SIZE);
-	cvlinexy (GRID_PADDING_X+(GRID_WIDTH+1)*CELL_SIZE, 0, GRID_PADDING_Y + (GRID_HEIGHT + 3)*CELL_SIZE);
+	cvlinexy (GRID_PADDING_X+(GRID_WIDTH)*CELL_SIZE+1, 0, GRID_PADDING_Y + (GRID_HEIGHT + 3)*CELL_SIZE);
 	
 	revers(0);
 
 	textcolor(4);
 	for(i=0; i < GRID_WIDTH; i++) {
 		for(j=0; j < GRID_HEIGHT; j++) {
-			if (grid[j][i] != 0) {
-				revers(1);
-				textcolor(grid[j][i]);
-				cputcxy((GRID_PADDING_X+i+1)*CELL_SIZE, (GRID_PADDING_Y+j+1)*CELL_SIZE, grid[j][i] + 64);
-				revers(0);
-				textcolor(15);
-			}
-			else 
-				cputcxy((GRID_PADDING_X+i+1)*CELL_SIZE, (GRID_PADDING_Y+j+1)*CELL_SIZE, ' ');			
+			draw_cell((GRID_PADDING_X+i)*CELL_SIZE, (GRID_PADDING_Y+j+1)*CELL_SIZE, grid[j][i]);		
 		}
 	}
 }
@@ -59,29 +71,31 @@ void draw_info () {
 	char c[8];
 
 	textcolor(12);
-	cputsxy(22, 3, "Next      =>");
+	cputsxy(26, 3, "Next      =>");
 	textcolor(4);
 
 	revers(1);
 	textcolor(nextblock[0]);
-	cputcxy(35, 3, nextblock[0] + 64);
+	cputcxy(28, 4, nextblock[0] + 64);
 	textcolor(nextblock[1]);
-	cputcxy(36, 3, nextblock[1] + 64);
+	cputcxy(29, 4, nextblock[1] + 64);
 	revers(0);
 
 	textcolor(12);
-	cputsxy(22, 5, "Score     =>");
+	cputsxy(26, 6, "Score     =>");
 	textcolor(4);
 	sprintf(c, "%d", score);
-	cputsxy(35, 5, c);
+	cputsxy(28, 7, c);
+
 	textcolor(12);
-	cputsxy(22, 7, "Highscore =>");
+	cputsxy(26, 9, "Highscore =>");
 	textcolor(4);
 	sprintf(c, "%d", score);
-	cputsxy(35, 7, c);
+	cputsxy(28, 10, c);
+
 	textcolor(12);
-	cputsxy(22, 9, "Time (m)  =>");
+	cputsxy(26, 12, "Time (m)  =>");
 	textcolor(4);
 	sprintf(c, "%d", elapsed);
-	cputsxy(35, 9, c);
+	cputsxy(28, 13, c);
 }

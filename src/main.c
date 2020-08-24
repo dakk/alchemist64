@@ -40,7 +40,6 @@ void gameloop () {
 				break;
 			
 		}
-		cputcxy(0,0,cc);
 		draw_curblock();
 	} while(cc != ' ');
 }
