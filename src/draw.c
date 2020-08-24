@@ -11,6 +11,8 @@ void draw_curblock() {
 	
 	cclearxy (GRID_PADDING_X+1, 0, GRID_WIDTH * CELL_SIZE);
 	cclearxy (GRID_PADDING_X+1, 1, GRID_WIDTH * CELL_SIZE);
+	cclearxy (GRID_PADDING_X+1, 2, GRID_WIDTH * CELL_SIZE);
+	cclearxy (GRID_PADDING_X+1, 3, GRID_WIDTH * CELL_SIZE);
 	
 	switch(curblock_rot) {
 		case 0: a = curblock[0]; b = curblock[1]; c = ' '; d = ' '; break;
@@ -30,10 +32,10 @@ void draw_game_grid () {
 	revers(1);
 	textcolor(15);
 	
-	chlinexy (GRID_PADDING_X, GRID_PADDING_Y, 2 + (GRID_WIDTH) * CELL_SIZE);
-	chlinexy (GRID_PADDING_X, (GRID_PADDING_Y+GRID_HEIGHT+1)*CELL_SIZE, 2 + (GRID_WIDTH)*CELL_SIZE);
-	cvlinexy (GRID_PADDING_X, 0, GRID_PADDING_Y + 4 + (GRID_HEIGHT) * CELL_SIZE);
-	cvlinexy (GRID_PADDING_X+(GRID_WIDTH+1)*CELL_SIZE, 0, GRID_PADDING_Y + 4 + (GRID_HEIGHT)*CELL_SIZE);
+	chlinexy (GRID_PADDING_X, GRID_PADDING_Y, 3 + (GRID_WIDTH) * CELL_SIZE);
+	chlinexy (GRID_PADDING_X, (GRID_PADDING_Y+GRID_HEIGHT+1)*CELL_SIZE, 3 + (GRID_WIDTH)*CELL_SIZE);
+	cvlinexy (GRID_PADDING_X, 0, GRID_PADDING_Y + (GRID_HEIGHT + 3) * CELL_SIZE);
+	cvlinexy (GRID_PADDING_X+(GRID_WIDTH+1)*CELL_SIZE, 0, GRID_PADDING_Y + (GRID_HEIGHT + 3)*CELL_SIZE);
 	
 	revers(0);
 
