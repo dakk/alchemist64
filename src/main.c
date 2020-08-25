@@ -51,6 +51,7 @@ void gameloop () {
 }
 
 void main(void) {
+	bordercolor(0);
 	bgcolor(0);
 
 	while(1) {

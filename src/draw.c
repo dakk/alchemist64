@@ -106,8 +106,8 @@ void draw_info () {
 
 void draw_gameover() {
 	textcolor(12);
-	cputsxy(26, 3, "GAMEOVER!");
-	cputsxy(26, 4, "PRESS ANY KEY");
+	cputsxy(5, 3, "GAMEOVER!");
+	cputsxy(5, 4, "PRESS ANY KEY");
 	cgetc();
 }
 
@@ -117,16 +117,14 @@ void draw_initialscreen() {
 
 	textcolor(12);
 
-	cputsxy(26, 3, "Alchemist64!");
+	cputsxy(5, 3, "Alchemist64!");
 	
-	cputsxy(26, 10, "Highscore =>");
+	cputsxy(5, 10, "Highscore =>");
 	textcolor(4);
 	sprintf(c, "%d", highscore);
-	cputsxy(28, 11, c);
-
+	cputsxy(5, 11, c);
 
 	textcolor(12);
-	cputsxy(26, 13, "Press any key...");
+	cputsxy(5, 13, "Press any key...");
 	cgetc();
-
 }

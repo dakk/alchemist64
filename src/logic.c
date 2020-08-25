@@ -5,15 +5,15 @@
 #include "logic.h"
 
 char grid[GRID_HEIGHT][GRID_WIDTH];
-int score = 0;
-int gameover = 0;
+int score;
+int gameover;
 time_t start_time;
-int elapsed = 0;
+int elapsed;
 int highscore = 0;
-char limit = 3;
+char limit;
 char nextblock[2];
 char curblock[2];
-int curblock_rot = 0;
+int curblock_rot;
 int curblock_pos = GRID_WIDTH/2-1;
 
 void generate_nextblock() {
@@ -124,9 +124,12 @@ void new_game() {
 	nextblock[0] = 1;
 	nextblock[1] = 1;
 	
+	gameover = 0;
+
 	generate_nextblock();
 
 	start_time = time(NULL);
+	elapsed = 0;
 }
 
 void drop_curblock() {
