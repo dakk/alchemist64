@@ -23,6 +23,10 @@ void draw_cell (int x, int y, char v) {
 	revers(0);
 }
 
+void draw_grid_cell (int x, int y) {
+	draw_cell((GRID_PADDING_X+x)*CELL_SIZE, GRID_PADDING_Y+(y+1)*CELL_SIZE, grid[y][x]);
+}
+
 void draw_curblock() {
 	char a,b,c,d;
 
@@ -59,16 +63,15 @@ void draw_container () {
 	revers(0);	
 }
 
-void draw_game_grid () {
-	int i,j;
+// void draw_game_grid () {
+// 	int i,j;
 
-	textcolor(4);
-	for(i=0; i < GRID_WIDTH; i++) {
-		for(j=0; j < GRID_HEIGHT; j++) {
-			draw_cell((GRID_PADDING_X+i)*CELL_SIZE, GRID_PADDING_Y+(j+1)*CELL_SIZE, grid[j][i]);		
-		}
-	}
-}
+// 	for(i=0; i < GRID_WIDTH; i++) {
+// 		for(j=0; j < GRID_HEIGHT; j++) {
+// 			draw_grid_cell(i, j);
+// 		}
+// 	}
+// }
 
 void draw_info () {
 	char c[8];

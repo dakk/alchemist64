@@ -1,8 +1,3 @@
-// The game has 15 different sprites, each one with a different value
-// we represent them with 15 sprites
-// the rest of the board is defined by petscii characters
-
-
 #include <stdio.h>
 #include <conio.h>
 #include "logic.h"
@@ -16,9 +11,8 @@ void gameloop () {
 	draw_curblock();
 	draw_info();
 
-	do {
-		draw_game_grid();	
-	} while(update());
+	// do {	draw_game_grid(); } 
+	while(update());
 	
 	draw_info();
 

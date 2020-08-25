@@ -3,6 +3,7 @@
 #include <time.h>
 
 #include "logic.h"
+#include "draw.h"
 
 char grid[GRID_HEIGHT][GRID_WIDTH];
 int score;
@@ -34,7 +35,7 @@ int test(int x, int y, int dx1, int dy1, int dx2, int dy2, char t) {
 
 
 void explode(int x, int y, char t){
-	if(grid[y][x] == t)
+	if(grid[y][x] == t) 
 		grid[y][x] = 0;
 	if (y > 0 && grid[y-1][x] == t) 
 		explode(x,y-1,t);
@@ -44,6 +45,8 @@ void explode(int x, int y, char t){
 		explode(x-1,y,t);
 	if  (x < GRID_WIDTH && grid[y][x+1] == t) 
 		explode(x+1,y,t);
+
+	draw_grid_cell(x, y);
 }
 		
 // Move down blocks, explode when combination is found, return 0 if no update occured
@@ -58,6 +61,8 @@ int update() {
 			if (grid[j][i] != 0 && grid[j+1][i] == 0) {
 				grid[j+1][i] = grid[j][i];
 				grid[j][i] = 0;
+
+				draw_grid_cell(i, j); draw_grid_cell(i, j+1);
 				r++;
 			}
 		}
@@ -80,6 +85,8 @@ int update() {
 						grid[y][x] ++;
 					else
 						grid[y][x] = 0;
+
+					draw_grid_cell(y, x);
 					
 					// explode the touching pieces
 					explode (x,y,t);

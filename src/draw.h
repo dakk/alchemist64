@@ -5,11 +5,12 @@
 #define GRID_PADDING_X  1
 #define CELL_SIZE	2
 
-void draw_game_grid(void);
+// void draw_game_grid(void);
 void draw_curblock(void);
 void draw_info(void);
 void draw_container(void);
 void draw_gameover(void);
 void draw_initialscreen(void);
+void draw_grid_cell(int, int);
 
 #endif
