@@ -21,7 +21,6 @@ void draw_cell (int x, int y, char v) {
 	cputcxy(x+1, y+1, 64+v);
 	cputcxy(x, y+1, 64+v);
 	revers(0);
-	textcolor(15);
 }
 
 void draw_curblock() {
@@ -94,7 +93,7 @@ void draw_info () {
 	textcolor(12);
 	cputsxy(26, 10, "Highscore =>");
 	textcolor(4);
-	sprintf(c, "%d", score);
+	sprintf(c, "%d", highscore);
 	cputsxy(28, 11, c);
 
 	textcolor(12);
@@ -108,4 +107,26 @@ void draw_info () {
 void draw_gameover() {
 	textcolor(12);
 	cputsxy(26, 3, "GAMEOVER!");
+	cputsxy(26, 4, "PRESS ANY KEY");
+	cgetc();
+}
+
+void draw_initialscreen() {
+	char c[8];
+	clrscr();
+
+	textcolor(12);
+
+	cputsxy(26, 3, "Alchemist64!");
+	
+	cputsxy(26, 10, "Highscore =>");
+	textcolor(4);
+	sprintf(c, "%d", highscore);
+	cputsxy(28, 11, c);
+
+
+	textcolor(12);
+	cputsxy(26, 13, "Press any key...");
+	cgetc();
+
 }

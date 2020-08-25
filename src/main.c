@@ -52,14 +52,19 @@ void gameloop () {
 
 void main(void) {
 	bgcolor(0);
-   	new_game ();
-	clrscr();
-    
-	draw_container();
 
-	while(!gameover){
-		gameloop();
+	while(1) {
+		draw_initialscreen();
+
+		new_game ();
+		clrscr();
+		
+		draw_container();
+
+		while(!gameover){
+			gameloop();
+		}
+
+		draw_gameover();
 	}
-
-	draw_gameover();
 }

@@ -10,5 +10,6 @@ void draw_curblock(void);
 void draw_info(void);
 void draw_container(void);
 void draw_gameover(void);
+void draw_initialscreen(void);
 
 #endif
