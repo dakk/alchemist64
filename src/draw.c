@@ -37,8 +37,8 @@ void draw_curblock() {
 	switch(curblock_rot) {
 		case 0: a = curblock[0]; b = curblock[1]; c = ' '; d = ' '; break;
 		case 1: a = curblock[0]; c = curblock[1]; b = ' '; d = ' '; break;
-		case 2: c = curblock[0]; a = curblock[1]; b = ' '; d = ' '; break;
-		case 3: b = curblock[0]; a = curblock[1]; c = ' '; d = ' '; break;
+		case 2: b = curblock[0]; a = curblock[1]; c = ' '; d = ' '; break;
+		case 3: c = curblock[0]; a = curblock[1]; b = ' '; d = ' '; break;
 	}
 		
 	draw_cell (((GRID_PADDING_X+curblock_pos)*CELL_SIZE), 1, a);
@@ -47,23 +47,26 @@ void draw_curblock() {
 	draw_cell ((GRID_PADDING_X+curblock_pos)*CELL_SIZE+CELL_SIZE, CELL_SIZE+1, d);	
 }
 
-void draw_game_grid () {
-	int i,j;
+void draw_container () {
 	revers(1);
 	textcolor(15);
 	
 	chlinexy (GRID_PADDING_X, 0, 2 + (GRID_WIDTH) * CELL_SIZE);
 	chlinexy (GRID_PADDING_X, GRID_PADDING_Y, 2 + (GRID_WIDTH) * CELL_SIZE);
-	chlinexy (GRID_PADDING_X, 2+(GRID_PADDING_Y+GRID_HEIGHT)*CELL_SIZE, 2 + (GRID_WIDTH)*CELL_SIZE);
-	cvlinexy (GRID_PADDING_X, 1, GRID_PADDING_Y + (GRID_HEIGHT + 3) * CELL_SIZE);
-	cvlinexy (GRID_PADDING_X+(GRID_WIDTH)*CELL_SIZE+1, 1, GRID_PADDING_Y + (GRID_HEIGHT + 3)*CELL_SIZE);
+	chlinexy (GRID_PADDING_X, 2+GRID_PADDING_Y+(GRID_HEIGHT)*CELL_SIZE, 2 + (GRID_WIDTH)*CELL_SIZE);
+	cvlinexy (GRID_PADDING_X, 0, GRID_PADDING_Y + (GRID_HEIGHT + 1) * CELL_SIZE);
+	cvlinexy (GRID_PADDING_X+(GRID_WIDTH)*CELL_SIZE+1, 0, GRID_PADDING_Y + (GRID_HEIGHT + 1)*CELL_SIZE);
 	
-	revers(0);
+	revers(0);	
+}
+
+void draw_game_grid () {
+	int i,j;
 
 	textcolor(4);
 	for(i=0; i < GRID_WIDTH; i++) {
 		for(j=0; j < GRID_HEIGHT; j++) {
-			draw_cell((GRID_PADDING_X+i)*CELL_SIZE, (GRID_PADDING_Y+j+1)*CELL_SIZE, grid[j][i]);		
+			draw_cell((GRID_PADDING_X+i)*CELL_SIZE, GRID_PADDING_Y+(j+1)*CELL_SIZE, grid[j][i]);		
 		}
 	}
 }
@@ -99,4 +102,10 @@ void draw_info () {
 	textcolor(4);
 	sprintf(c, "%d", elapsed);
 	cputsxy(28, 14, c);
+}
+
+
+void draw_gameover() {
+	textcolor(12);
+	cputsxy(26, 3, "GAMEOVER!");
 }

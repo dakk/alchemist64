@@ -6,6 +6,7 @@
 
 char grid[GRID_HEIGHT][GRID_WIDTH];
 int score = 0;
+int gameover = 0;
 time_t start_time;
 int elapsed = 0;
 int highscore = 0;
@@ -50,7 +51,6 @@ int update() {
 	int i,j,x,y;
 	int r = 0;
 
-	elapsed = (time(NULL) - start_time) / 60;
 	
 	// Move down
 	for(j=GRID_HEIGHT-2; j >= 0; j--) {
@@ -95,7 +95,15 @@ int update() {
 			}
 		}
 	}
+
+	// Check for gameover
+	for(i = 0; i < GRID_WIDTH; i++) {
+		if (grid[0][i] != 0 || grid[1][i] != 0) {
+			gameover = 1;
+		}
+	}
 	
+	elapsed = (time(NULL) - start_time) / 60;
 	return r;
 }
 
@@ -127,12 +135,12 @@ void drop_curblock() {
 	switch(curblock_rot) {
 		case 0: a = curblock[0]; b = curblock[1]; c = 0; d = 0; break;
 		case 1: a = curblock[0]; c = curblock[1]; b = 0; d = 0; break;
-		case 2: c = curblock[0]; a = curblock[1]; b = 0; d = 0; break;
-		case 3: b = curblock[0]; a = curblock[1]; c = 0; d = 0; break;
+		case 2: b = curblock[0]; a = curblock[1]; c = 0; d = 0; break;
+		case 3: c = curblock[0]; a = curblock[1]; b = 0; d = 0; break;
 	}
 			
-	grid[0][curblock_pos] = a;
-	grid[0][curblock_pos+1] = b;
-	grid[1][curblock_pos] = c;
-	grid[1][curblock_pos+1] = d;
+	if(a) grid[0][curblock_pos] = a;
+	if(b) grid[0][curblock_pos+1] = b;
+	if(c) grid[1][curblock_pos] = c;
+	if(d) grid[1][curblock_pos+1] = d;
 }

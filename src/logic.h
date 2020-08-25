@@ -2,9 +2,10 @@
 #define LOGIC_H__
 
 
-#define GRID_HEIGHT 	6
+#define GRID_HEIGHT 	8
 #define GRID_WIDTH 		10
 
+extern int gameover;
 extern int elapsed;
 extern int highscore;
 extern int score;

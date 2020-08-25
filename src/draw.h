@@ -8,5 +8,7 @@
 void draw_game_grid(void);
 void draw_curblock(void);
 void draw_info(void);
+void draw_container(void);
+void draw_gameover(void);
 
 #endif

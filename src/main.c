@@ -11,13 +11,19 @@
 
 void gameloop () {
 	char cc;
+
 	
+	draw_curblock();
+	draw_info();
+
 	do {
-		draw_curblock();
 		draw_game_grid();	
-		draw_info();
 	} while(update());
 	
+	draw_info();
+
+	if (gameover)
+		return;
 	
 	do {
 		cc = cgetc();
@@ -49,7 +55,11 @@ void main(void) {
    	new_game ();
 	clrscr();
     
-	while(1){
+	draw_container();
+
+	while(!gameover){
 		gameloop();
 	}
+
+	draw_gameover();
 }
