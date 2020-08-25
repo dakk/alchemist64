@@ -45,6 +45,9 @@ void gameloop () {
 }
 
 void main(void) {
+	__asm__("LDA #21");
+	__asm__("STA $d018");
+	clrscr();
 	bordercolor(0);
 	bgcolor(0);
 

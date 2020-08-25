@@ -4,6 +4,16 @@
 #include "logic.h"
 #include "draw.h"
 
+
+char vtable[] = {
+	65 + 64,
+	83 + 64,
+	90 + 64,
+	88 + 64,
+	81 + 64,
+	87 + 64
+};
+
 void draw_cell (int x, int y, char v) {
 	if (v == 0) {
 		textcolor(4);
@@ -16,10 +26,10 @@ void draw_cell (int x, int y, char v) {
 	
 	revers(1);
 	textcolor(v);
-	cputcxy(x, y, 64+v);
-	cputcxy(x+1, y, 64+v);
-	cputcxy(x+1, y+1, 64+v);
-	cputcxy(x, y+1, 64+v);
+	cputcxy(x, y, vtable[v-1]);
+	cputcxy(x+1, y, vtable[v-1]);
+	cputcxy(x+1, y+1, vtable[v-1]);
+	cputcxy(x, y+1, vtable[v-1]);
 	revers(0);
 }
 
@@ -77,7 +87,7 @@ void draw_info () {
 	char c[8];
 
 	textcolor(12);
-	cputsxy(26, 3, "Next      =>");
+	cputsxy(26, 3, "next");
 	textcolor(4);
 
 	revers(1);
@@ -88,19 +98,19 @@ void draw_info () {
 	revers(0);
 
 	textcolor(12);
-	cputsxy(26, 7, "Score     =>");
+	cputsxy(26, 7, "score");
 	textcolor(4);
 	sprintf(c, "%d", score);
 	cputsxy(28, 8, c);
 
 	textcolor(12);
-	cputsxy(26, 10, "Highscore =>");
+	cputsxy(26, 10, "highscore");
 	textcolor(4);
 	sprintf(c, "%d", highscore);
 	cputsxy(28, 11, c);
 
 	textcolor(12);
-	cputsxy(26, 13, "Time (m)  =>");
+	cputsxy(26, 13, "time (m)");
 	textcolor(4);
 	sprintf(c, "%d", elapsed);
 	cputsxy(28, 14, c);
@@ -109,8 +119,8 @@ void draw_info () {
 
 void draw_gameover() {
 	textcolor(12);
-	cputsxy(5, 3, "GAMEOVER!");
-	cputsxy(5, 4, "PRESS ANY KEY");
+	cputsxy(5, 3, "gameover!");
+	cputsxy(5, 4, "press any key");
 	cgetc();
 }
 
@@ -120,14 +130,14 @@ void draw_initialscreen() {
 
 	textcolor(12);
 
-	cputsxy(5, 3, "Alchemist64!");
+	cputsxy(5, 3, "alchemist64!");
 	
-	cputsxy(5, 10, "Highscore =>");
+	cputsxy(5, 10, "highscore");
 	textcolor(4);
 	sprintf(c, "%d", highscore);
 	cputsxy(5, 11, c);
 
 	textcolor(12);
-	cputsxy(5, 13, "Press any key...");
+	cputsxy(5, 13, "press any key...");
 	cgetc();
 }

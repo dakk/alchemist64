@@ -86,7 +86,7 @@ int update() {
 					else
 						grid[y][x] = 0;
 
-					draw_grid_cell(y, x);
+					draw_grid_cell(x, y);
 					
 					// explode the touching pieces
 					explode (x,y,t);
