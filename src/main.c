@@ -2,6 +2,7 @@
 #include <conio.h>
 #include "logic.h"
 #include "draw.h"
+#include "data.h"
 
 
 void gameloop () {
@@ -45,8 +46,9 @@ void gameloop () {
 }
 
 void main(void) {
-	__asm__("LDA #21");
-	__asm__("STA $d018");
+
+	load_font();
+
 	clrscr();
 	bordercolor(0);
 	bgcolor(0);

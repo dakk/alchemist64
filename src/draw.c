@@ -1,9 +1,17 @@
 #include <stdio.h>
 #include <conio.h>
+#include <string.h>
 
 #include "logic.h"
 #include "draw.h"
 
+// #define VIC_BASE_RAM			(0xC000)
+// #define CHARMAP_RAM				((char*)VIC_BASE_RAM + 0x2800)
+// extern char charset[1024];
+
+// void load_charset() {
+// 	memcpy((char*)CHARMAP_RAM, (char*)charset+256*8,256*8);
+// }
 
 char vtable[] = {
 	65 + 64,
@@ -13,6 +21,7 @@ char vtable[] = {
 	81 + 64,
 	87 + 64
 };
+
 
 void draw_cell (int x, int y, char v) {
 	if (v == 0) {
@@ -24,13 +33,13 @@ void draw_cell (int x, int y, char v) {
 		return;
 	}
 	
-	revers(1);
+	// revers(1);
 	textcolor(v);
 	cputcxy(x, y, vtable[v-1]);
 	cputcxy(x+1, y, vtable[v-1]);
 	cputcxy(x+1, y+1, vtable[v-1]);
 	cputcxy(x, y+1, vtable[v-1]);
-	revers(0);
+	// revers(0);
 }
 
 void draw_grid_cell (int x, int y) {
@@ -90,12 +99,12 @@ void draw_info () {
 	cputsxy(26, 3, "next");
 	textcolor(4);
 
-	revers(1);
+	// revers(1);
 	textcolor(nextblock[0]);
 	draw_cell(28, 4, nextblock[0]);
 	textcolor(nextblock[1]);
 	draw_cell(30, 4, nextblock[1]);
-	revers(0);
+	// revers(0);
 
 	textcolor(12);
 	cputsxy(26, 7, "score");

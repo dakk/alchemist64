@@ -23,7 +23,7 @@ LIBS    :=
 # Custom linker configuration file
 # Use only if you don't want to place it in SRCDIR
 # Default: none
-CONFIG  :=
+CONFIG  := 
 
 # Additional C compiler flags and options.
 # Default: none
