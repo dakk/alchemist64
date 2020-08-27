@@ -1,6 +1,11 @@
 #ifndef DRAW_H__
 #define DRAW_H__
 
+#define BACKGROUND 	0
+#define TEXTCOLOR 	7
+#define TEXTCOLOR2 	4
+#define GRIDCOLOR 	6
+
 #define GRID_PADDING_Y	5
 #define GRID_PADDING_X  1
 #define CELL_SIZE	2

@@ -50,8 +50,8 @@ void main(void) {
 	load_font();
 
 	clrscr();
-	bordercolor(0);
-	bgcolor(0);
+	bordercolor(BACKGROUND);
+	bgcolor(BACKGROUND);
 
 	while(1) {
 		draw_initialscreen();

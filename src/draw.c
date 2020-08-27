@@ -42,7 +42,6 @@ void draw_custom(int x, int y, char v) {
 
 void draw_cell (int x, int y, char v) {
 	if (v == 0) {
-		textcolor(4);
 		cputcxy(x, y, ' ');
 		cputcxy(x+1, y, ' ');
 		cputcxy(x+1, y+1, ' ');
@@ -59,8 +58,6 @@ void draw_grid_cell (int x, int y) {
 
 void draw_curblock() {
 	char a,b,c,d;
-
-	textcolor(15);
 	
 	cclearxy (GRID_PADDING_X+1, 1, GRID_WIDTH * CELL_SIZE);
 	cclearxy (GRID_PADDING_X+1, 2, GRID_WIDTH * CELL_SIZE);
@@ -83,7 +80,7 @@ void draw_curblock() {
 void draw_container () {
 	int i;
 	revers(1);
-	textcolor(6);
+	textcolor(GRIDCOLOR);
 	
 	chlinexy (GRID_PADDING_X, 0, 2 + (GRID_WIDTH) * CELL_SIZE);
 	chlinexy (GRID_PADDING_X, GRID_PADDING_Y, 2 + (GRID_WIDTH) * CELL_SIZE);
@@ -126,9 +123,9 @@ void draw_info () {
 	int i;
 	int j;
 
-	textcolor(7);
+	textcolor(TEXTCOLOR);
 	cputsxy(26, 3, "next");
-	textcolor(4);
+	textcolor(TEXTCOLOR2);
 
 	// revers(1);
 	textcolor(nextblock[0]);
@@ -137,25 +134,25 @@ void draw_info () {
 	draw_cell(30, 4, nextblock[1]);
 	// revers(0);
 
-	textcolor(7);
+	textcolor(TEXTCOLOR);
 	cputsxy(26, 7, "score");
-	textcolor(4);
+	textcolor(TEXTCOLOR2);
 	sprintf(c, "%d", score);
 	cputsxy(28, 8, c);
 
-	textcolor(7);
+	textcolor(TEXTCOLOR);
 	cputsxy(26, 10, "highscore");
-	textcolor(4);
+	textcolor(TEXTCOLOR2);
 	sprintf(c, "%d", highscore);
 	cputsxy(28, 11, c);
 
-	textcolor(7);
+	textcolor(TEXTCOLOR);
 	cputsxy(26, 13, "time (m)");
-	textcolor(4);
+	textcolor(TEXTCOLOR2);
 	sprintf(c, "%d", elapsed);
 	cputsxy(28, 14, c);
 
-	textcolor(7);
+	textcolor(TEXTCOLOR);
 	sprintf(c, "elements (%d)", elements);
 	cputsxy(26, 16, c);
 
@@ -169,7 +166,7 @@ void draw_info () {
 
 
 void draw_gameover() {
-	textcolor(12);
+	textcolor(TEXTCOLOR);
 	cputsxy(5, 3, "gameover!");
 	cputsxy(5, 4, "press any key");
 	cgetc();
@@ -179,16 +176,16 @@ void draw_initialscreen() {
 	char c[8];
 	clrscr();
 
-	textcolor(7);
+	textcolor(TEXTCOLOR);
 
 	cputsxy(5, 3, "alchemist64!");
 	
 	cputsxy(5, 10, "highscore");
-	textcolor(4);
+	textcolor(TEXTCOLOR2);
 	sprintf(c, "%d", highscore);
 	cputsxy(5, 11, c);
 
-	textcolor(6);
+	textcolor(TEXTCOLOR);
 	cputsxy(5, 13, "press any key...");
 	cgetc();
 }
