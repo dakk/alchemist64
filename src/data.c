@@ -225,54 +225,83 @@ const char charset_colors[][CHAR_Y*2] = {
 
 #define VIC_BASE_RAM			(0x8000)
 #define VIC_BASE_RAM2			((char*)VIC_BASE_RAM)
-#define CHARMAP_RAM				((char*)VIC_BASE_RAM+0x2000)
-#define	SCREEN_RAM				((char*)VIC_BASE_RAM+0x2800)
+#define	SCREEN_RAM				((char*)VIC_BASE_RAM+0x0400)
+#define CHARMAP_RAM				((char*)VIC_BASE_RAM+0x0800)
 #define COLOUR_RAM				((char*)0xd800)
+
+#define CHARMAP_RAM2 ((char*)0x1ffe)
+
 
 #include <cbm.h>
 #include <string.h>
+#include <stdio.h>
+#include <conio.h>
 
 void load_font() {
 	int i;
 	const char *pData;
 
-	// Found here https://github.com/StewBC/manicminer/blob/f189e4b9a4276c1cf4c5da7565a3f5d26d435a6f/src/render.c
-	// no clue
-	// CIA2.ddra |= 0x03;
-	// CIA2.pra = (CIA2.pra & 0xfc) | (3-(VIC_BASE_RAM / 0x4000));
-	// VIC.addr = ((((int)(SCREEN_RAM - VIC_BASE_RAM) / 0x0400) << 4) + (((int)(CHARMAP_RAM - VIC_BASE_RAM) / 0x0800) << 1));
-	// CIA1.cra = (CIA1.cra & 0xc0) | 0x10;
-	// CIA1.crb |= 0x40;
 
-	// pData = &charset[0][0];
-	// for(i = 0; i < CHARSET_COUNT; ++i)
-	// 	SCREEN_RAM[i] = *pData++;
+	// memset(SCREEN_RAM, ' ', 40*25);
+
+	CIA2.ddra |= 0x03;
+	CIA2.pra = (CIA2.pra & 0xfc) | (3-(VIC_BASE_RAM / 0x4000));
+	VIC.addr = ((((int)(SCREEN_RAM - VIC_BASE_RAM) / 0x0400) << 4) + (((int)(CHARMAP_RAM - VIC_BASE_RAM) / 0x0800) << 1));
+	VIC.ctrl2 |= 16;
+	VIC.ctrl1 = 0x1b;
+	VIC.bordercolor = VIC.bgcolor0 = COLOR_LIGHTBLUE;
+	VIC.bgcolor1 = COLOR_BROWN;
+	VIC.bgcolor2 = COLOR_BLACK;
+
 
 	pData = &charset[0][0];
-	for(i = 0; i < MAP_COUNT; ++i)
+	for(i = 0; i < CHARSET_COUNT; ++i)
 		CHARMAP_RAM[i] = *pData++;
 
-	// pData = &charset_colors[0][0];
-	// for(i = 0; i < COLORS_COUNT; ++i)
+	// pData = &charset_map[0][0];
+	// for(i = 0; i < MAP_COUNT; ++i)
+	// 	CHARMAP_RAM[i+2048] = *pData++;
+
+	// pData = &charset_map[0][0];
+	// for(i = 0; i < MAP_COUNT; ++i) {
+	// 	COLOUR_RAM[i] = *pData++;
+	// }
+
+	// pData = &charset_map[0][0];
+	// for(i = 0; i < MAP_COUNT; ++i)
 	// 	COLOUR_RAM[i] = *pData++;
 
 
-	// __asm__("lda   $DD00");
-	// __asm__("and   #$FC");
-	// __asm__("ora   #1");
-	// __asm__("sta   $DD00");
-
-	// Select bank
-	// __asm__("lda   #$02");
-  	// __asm__("sta   $D018");
-  
-	// Enable multicolor
-	__asm__("lda   $D016");
-	__asm__("ora   #$10");
-	__asm__("sta   $D016");
 
 
-	// Select bank
-	__asm__("LDA #21");
-	__asm__("STA $d018");
+	// clrscr();
+
+
+	// for (i=0;i<16; i++) {
+	// 	COLOUR_RAM[(i*2)+40] = charset_colors[0][96+i*2];
+	// 	SCREEN_RAM[(i*2)+40] = 96+i*2;
+	// 	COLOUR_RAM[(i*2)+1+40] = charset_colors[0][97+i*2];
+	// 	SCREEN_RAM[(i*2)+1+40] = 97+i*2;
+	// 	COLOUR_RAM[(i*2)] = charset_colors[0][64+i*2];
+	// 	SCREEN_RAM[i*2] = 64+i*2;
+	// 	COLOUR_RAM[(i*2)+1] = charset_colors[0][65+i*2];
+	// 	SCREEN_RAM[i*2+1] = 65+i*2;
+	// }
+
+	
+
+	// i = 0;
+	
+	// gotoxy(10, 10);
+	// textcolor(COLOR_BLACK);
+	// cprintf("HELLOciao");
+
+	// while (1) {
+	// 	// SCREEN_RAM[1]++;
+	// 	for(i=0;i<1024;i++);
+	// 	// cputs("This is A Test\n");
+	// 	// cputc(i++);
+	// }
+
+
 }
