@@ -10,6 +10,7 @@ extern int elapsed;
 extern int highscore;
 extern int score;
 extern char limit;
+extern char elements;
 extern char nextblock[2];
 extern char curblock[2];
 extern int curblock_rot;

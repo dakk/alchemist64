@@ -8,7 +8,6 @@
 void gameloop () {
 	char cc;
 
-	
 	draw_curblock();
 	draw_info();
 
@@ -45,8 +44,9 @@ void gameloop () {
 	} while(cc != ' ');
 }
 
-void main(void) {
 
+void main(void) {
+	int i;
 	load_font();
 
 	clrscr();

@@ -12,6 +12,7 @@ time_t start_time;
 int elapsed;
 int highscore = 0;
 char limit;
+char elements;
 char nextblock[2];
 char curblock[2];
 int curblock_rot;
@@ -86,6 +87,9 @@ int update() {
 					else
 						grid[y][x] = 0;
 
+					if (elements < grid[y][x])
+						elements = grid[y][x];
+
 					draw_grid_cell(x, y);
 					
 					// explode the touching pieces
@@ -95,7 +99,7 @@ int update() {
 					if (score > highscore)
 						highscore = score;
 
-					if (t-1 > limit && t-1 < 13)
+					if (t-1 > limit && t-1 < 12)
 						limit++;
 					return 1;
 				}
@@ -126,6 +130,7 @@ void new_game() {
 	}	
 	
 	limit = 3;
+	elements = 3;
 	score = 0;	
 	
 	nextblock[0] = 1;

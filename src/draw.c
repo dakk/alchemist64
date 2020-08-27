@@ -4,6 +4,7 @@
 
 #include "logic.h"
 #include "draw.h"
+#include "data.h"
 
 // #define VIC_BASE_RAM			(0xC000)
 // #define CHARMAP_RAM				((char*)VIC_BASE_RAM + 0x2800)
@@ -13,14 +14,30 @@
 // 	memcpy((char*)CHARMAP_RAM, (char*)charset+256*8,256*8);
 // }
 
-char vtable[] = {
-	65 + 64,
-	83 + 64,
-	90 + 64,
-	88 + 64,
-	81 + 64,
-	87 + 64
+char vtable[][4] = {
+	{64,65,96,97},
+	{66,67,98,99},
+	{68,69,100,101},
+	{70,71,102,103},
+	{72,73,104,105},
+	{74,75,106,107},
+	{76,77,108,109},
+	{78,79,110,111},
+	{80,81,112,113},
+	{82,83,114,115},
+	{84,85,116,117},
 };
+
+void draw_custom(int x, int y, char v) {
+	COLOUR_RAM[y*40+x] = charset_colors[0][vtable[v-1][0]];
+	SCREEN_RAM[y*40+x] = vtable[v-1][0];
+	COLOUR_RAM[y*40+x+1] = charset_colors[0][vtable[v-1][1]];
+	SCREEN_RAM[y*40+x+1] = vtable[v-1][1];
+	COLOUR_RAM[(y+1)*40+x] = charset_colors[0][vtable[v-1][2]];
+	SCREEN_RAM[(y+1)*40+x] = vtable[v-1][2];
+	COLOUR_RAM[(y+1)*40+x+1] = charset_colors[0][vtable[v-1][3]];
+	SCREEN_RAM[(y+1)*40+x+1] = vtable[v-1][3];
+}
 
 
 void draw_cell (int x, int y, char v) {
@@ -32,14 +49,8 @@ void draw_cell (int x, int y, char v) {
 		cputcxy(x, y+1, ' ');
 		return;
 	}
-	
-	// revers(1);
-	textcolor(v);
-	cputcxy(x, y, vtable[v-1]);
-	cputcxy(x+1, y, vtable[v-1]);
-	cputcxy(x+1, y+1, vtable[v-1]);
-	cputcxy(x, y+1, vtable[v-1]);
-	// revers(0);
+
+	draw_custom(x, y, v);
 }
 
 void draw_grid_cell (int x, int y) {
@@ -57,10 +68,10 @@ void draw_curblock() {
 	cclearxy (GRID_PADDING_X+1, 4, GRID_WIDTH * CELL_SIZE);
 	
 	switch(curblock_rot) {
-		case 0: a = curblock[0]; b = curblock[1]; c = ' '; d = ' '; break;
-		case 1: a = curblock[0]; c = curblock[1]; b = ' '; d = ' '; break;
-		case 2: b = curblock[0]; a = curblock[1]; c = ' '; d = ' '; break;
-		case 3: c = curblock[0]; a = curblock[1]; b = ' '; d = ' '; break;
+		case 0: a = curblock[0]; b = curblock[1]; c = 0; d = 0; break;
+		case 1: a = curblock[0]; c = curblock[1]; b = 0; d = 0; break;
+		case 2: b = curblock[0]; a = curblock[1]; c = 0; d = 0; break;
+		case 3: c = curblock[0]; a = curblock[1]; b = 0; d = 0; break;
 	}
 		
 	draw_cell (((GRID_PADDING_X+curblock_pos)*CELL_SIZE), 1, a);
@@ -70,8 +81,9 @@ void draw_curblock() {
 }
 
 void draw_container () {
+	int i;
 	revers(1);
-	textcolor(15);
+	textcolor(6);
 	
 	chlinexy (GRID_PADDING_X, 0, 2 + (GRID_WIDTH) * CELL_SIZE);
 	chlinexy (GRID_PADDING_X, GRID_PADDING_Y, 2 + (GRID_WIDTH) * CELL_SIZE);
@@ -80,7 +92,24 @@ void draw_container () {
 	cvlinexy (GRID_PADDING_X+(GRID_WIDTH)*CELL_SIZE+1, 0, GRID_PADDING_Y + (GRID_HEIGHT + 1)*CELL_SIZE);
 	
 	revers(0);	
+
+	textcolor(6);
+	SCREEN_RAM[GRID_PADDING_X] = 86;
+	for(i=1; i < 1 + (GRID_WIDTH) * CELL_SIZE;i++)
+		SCREEN_RAM[GRID_PADDING_X+i] = 88;
+	SCREEN_RAM[1+GRID_PADDING_X + (GRID_WIDTH) * CELL_SIZE] = 87;
+	for(i=1; i < 1 + (GRID_WIDTH) * CELL_SIZE;i++)
+		SCREEN_RAM[GRID_PADDING_Y*40+GRID_PADDING_X+i] = 88;
+	for(i=1; i < 1 + (GRID_WIDTH) * CELL_SIZE;i++)
+		SCREEN_RAM[(GRID_PADDING_Y+(GRID_HEIGHT + 1) * CELL_SIZE)*40+GRID_PADDING_X+i] = 88;
+	SCREEN_RAM[(GRID_PADDING_Y+(GRID_HEIGHT + 1) * CELL_SIZE)*40+GRID_PADDING_X] = 118;
+	SCREEN_RAM[(GRID_PADDING_Y+(GRID_HEIGHT + 1) * CELL_SIZE)*40+GRID_PADDING_X + GRID_WIDTH * CELL_SIZE+1] = 119;
+	for(i=1; i < 1 + (GRID_HEIGHT) * CELL_SIZE+1+GRID_PADDING_Y;i++)
+		SCREEN_RAM[(i)*40+GRID_PADDING_X] = 89;
+	for(i=1; i < 1 + (GRID_HEIGHT) * CELL_SIZE+1+GRID_PADDING_Y;i++)
+		SCREEN_RAM[(i)*40+GRID_PADDING_X+(GRID_WIDTH*CELL_SIZE)+1] = 121;
 }
+
 
 // void draw_game_grid () {
 // 	int i,j;
@@ -93,9 +122,11 @@ void draw_container () {
 // }
 
 void draw_info () {
-	char c[8];
+	char c[14];
+	int i;
+	int j;
 
-	textcolor(12);
+	textcolor(7);
 	cputsxy(26, 3, "next");
 	textcolor(4);
 
@@ -106,23 +137,34 @@ void draw_info () {
 	draw_cell(30, 4, nextblock[1]);
 	// revers(0);
 
-	textcolor(12);
+	textcolor(7);
 	cputsxy(26, 7, "score");
 	textcolor(4);
 	sprintf(c, "%d", score);
 	cputsxy(28, 8, c);
 
-	textcolor(12);
+	textcolor(7);
 	cputsxy(26, 10, "highscore");
 	textcolor(4);
 	sprintf(c, "%d", highscore);
 	cputsxy(28, 11, c);
 
-	textcolor(12);
+	textcolor(7);
 	cputsxy(26, 13, "time (m)");
 	textcolor(4);
 	sprintf(c, "%d", elapsed);
 	cputsxy(28, 14, c);
+
+	textcolor(7);
+	sprintf(c, "elements (%d)", elements);
+	cputsxy(26, 16, c);
+
+	j=0;
+	for(i=0;i<elements;i++) {
+		if (i % 5 == 0)
+			j++;
+		draw_custom(28 + i*2 - (j-1)*10, 15+j*2, i+1);
+	}
 }
 
 
@@ -137,7 +179,7 @@ void draw_initialscreen() {
 	char c[8];
 	clrscr();
 
-	textcolor(12);
+	textcolor(7);
 
 	cputsxy(5, 3, "alchemist64!");
 	
@@ -146,7 +188,7 @@ void draw_initialscreen() {
 	sprintf(c, "%d", highscore);
 	cputsxy(5, 11, c);
 
-	textcolor(12);
+	textcolor(6);
 	cputsxy(5, 13, "press any key...");
 	cgetc();
 }
