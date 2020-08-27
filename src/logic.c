@@ -22,7 +22,11 @@ void generate_nextblock() {
 	curblock[0] = nextblock[0];
 	curblock[1] = nextblock[1];
 	curblock_rot = 0;
-	nextblock[0] = (char) (rand() % limit) + 1;
+
+	if (rand() % 25 == 30)
+		nextblock[0] = (char) (rand() % 3) + 12;
+	else
+		nextblock[0] = (char) (rand() % limit) + 1;
 	nextblock[1] = (char) (rand() % limit) + 1;
 }
 
@@ -34,10 +38,17 @@ int test(int x, int y, int dx1, int dy1, int dx2, int dy2, char t) {
 	return on_board(x+dx1,y+dy1) && on_board(x+dx2,y+dy2) && grid[y+dy1][x+dx1] == t && grid[y+dy2][x+dx2] == t;
 }
 
+void change_cell(int x, int y, char newvalue) {
+	if (on_board (x, y)) {
+		grid[y][x] = newvalue;
+		draw_grid_cell(x, y);
+	}
+}
+		
 
 void explode(int x, int y, char t){
 	if(grid[y][x] == t) 
-		grid[y][x] = 0;
+		change_cell(x,y,0);
 	if (y > 0 && grid[y-1][x] == t) 
 		explode(x,y-1,t);
 	if (y < GRID_HEIGHT && grid[y+1][x] == t) 
@@ -46,10 +57,8 @@ void explode(int x, int y, char t){
 		explode(x-1,y,t);
 	if  (x < GRID_WIDTH && grid[y][x+1] == t) 
 		explode(x+1,y,t);
-
-	draw_grid_cell(x, y);
 }
-		
+
 // Move down blocks, explode when combination is found, return 0 if no update occured
 int update() {
 	int i,j,x,y;
@@ -73,7 +82,44 @@ int update() {
 	// Exploding
 	for(y=0; y < GRID_HEIGHT; y++) {
 		for(x=0; x < GRID_WIDTH; x++) {
-			if (grid[y][x] != 0 && grid[y][x] < 13) {
+			// Dynamite
+			if (grid[y][x] == 12) {
+				change_cell(x, y, 0);
+
+				change_cell(x-1, y, 0);
+				change_cell(x+1, y, 0);
+				change_cell(x, y+1, 0);
+				change_cell(x, y-1, 0);
+				return 1;
+			}
+			// Press
+			else if (grid[y][x] == 13) {
+				if (y < GRID_HEIGHT-1)  
+					change_cell(x, y+1, 13);
+				
+				change_cell(x, y, 0);
+				return 1;
+			}
+			// Bomb
+			else if (grid[y][x] == 14) {
+				change_cell(x, y, 0);
+
+				change_cell(x, y-1, 0);
+				change_cell(x, y+1, 0);
+				change_cell(x+1, y, 0);
+				change_cell(x-1, y, 0);
+				change_cell(x-1, y-1, 0);
+				change_cell(x+1, y+1, 0);
+				change_cell(x+1, y-1, 0);
+				change_cell(x-1, y+1, 0);
+				change_cell(x, y-2, 0);
+				change_cell(x, y+2, 0);
+				change_cell(x+2, y, 0);
+				change_cell(x-2, y, 0);
+				return 1;
+			}
+			// Normal
+			else if (grid[y][x] != 0 && grid[y][x] < 12) {
 				char t = grid[y][x];
 				if (test (x, y, 0, 1, 0, -1, t) 
 				 || test (x, y, 1, 0, -1, 0, t) 
