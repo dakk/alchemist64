@@ -3,6 +3,7 @@
 #include "logic.h"
 #include "draw.h"
 #include "data.h"
+#include "sound.h"
 
 
 void gameloop () {
@@ -56,6 +57,8 @@ void gameloop () {
 
 void main(void) {
 	int i;
+
+	sound_init();
 	load_font();
 
 	clrscr();

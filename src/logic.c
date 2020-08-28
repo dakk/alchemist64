@@ -4,6 +4,7 @@
 
 #include "logic.h"
 #include "draw.h"
+#include "sound.h"
 
 char grid[GRID_HEIGHT][GRID_WIDTH];
 int score;
@@ -90,6 +91,8 @@ int update() {
 				change_cell(x+1, y, 0);
 				change_cell(x, y+1, 0);
 				change_cell(x, y-1, 0);
+
+				play_dynamite();
 				return 1;
 			}
 			// Press
@@ -98,6 +101,8 @@ int update() {
 					change_cell(x, y+1, 13);
 				
 				change_cell(x, y, 0);
+
+				play_press();
 				return 1;
 			}
 			// Bomb
@@ -116,6 +121,8 @@ int update() {
 				change_cell(x, y+2, 0);
 				change_cell(x+2, y, 0);
 				change_cell(x-2, y, 0);
+
+				play_bomb();
 				return 1;
 			}
 			// Normal
@@ -140,6 +147,9 @@ int update() {
 					
 					// explode the touching pieces
 					explode (x,y,t);
+
+					play_explode();
+					
 					score += (t * 10) + t * t;
 
 					if (score > highscore)

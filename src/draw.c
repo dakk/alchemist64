@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 
+#include "sound.h"
 #include "logic.h"
 #include "draw.h"
 #include "data.h"
@@ -210,6 +211,10 @@ void draw_initialscreen() {
 		cputcxy(6+2*14+j,16, ' ');
 
 		if (dir == 1) j++; else j--;
-		if (j >= 5) dir = -1; else if (j <= -5) dir = 1;
+		if (j >= 5) {
+			dir = -1; 
+		} else if (j <= -5) {
+			dir = 1;
+		}
 	}
 }

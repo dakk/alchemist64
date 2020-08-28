@@ -162,6 +162,8 @@ void load_font() {
 
 	memset(SCREEN_RAM, ' ', 40*25);
 
+
+#ifdef __C64__
 	CIA2.ddra |= 0x03;
 	CIA2.pra = (CIA2.pra & 0xfc) | (3-(VIC_BASE_RAM / 0x4000));
 	VIC.addr = ((((int)(SCREEN_RAM - VIC_BASE_RAM) / 0x0400) << 4) + (((int)(CHARMAP_RAM - VIC_BASE_RAM) / 0x0800) << 1));
@@ -176,4 +178,8 @@ void load_font() {
 	pData = &charset[0][0];
 	for(i = 0; i < CHARSET_COUNT; ++i)
 		CHARMAP_RAM[i] = *pData++;
+#endif
+#ifdef __CX16__
+
+#endif
 }
