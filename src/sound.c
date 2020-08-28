@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include "sound.h"
 
-
+// https://stackoverflow.com/questions/40950140/how-to-include-a-sid-file-into-a-cc65-program-on-a-c64 
+// music will be played along the game using interrupts; sound effects in the main thread
  
-uint16_t g_freq[8] = {
+uint16_t freqs[8] = {
     0x22cd,
     0x2710,
     0x2bd8,
@@ -35,7 +36,7 @@ void sound_init()
  
 void set_freq(uint8_t voice, uint16_t freqIndex)
 {
-    uint16_t freq = g_freq[freqIndex];
+    uint16_t freq = freqs[freqIndex];
     sid_base[7 * voice] = freq & 0xff;
     sid_base[7 * voice + 1] = freq >> 8;
 }
@@ -74,61 +75,28 @@ void stop_tone(uint8_t voice)
     stop_triangle(voice);
 }
  
-void playOneTone(uint8_t freqIndex)
+void play_one_tone(uint8_t freqIndex)
 {
     start_tone(0, freqIndex);
     delay();
     stop_tone(0);
 }
  
-void play_three_tones(uint8_t freqIndex0, uint8_t freqIndex1, uint8_t freqIndex2)
-{
-    start_tone(0, freqIndex0);
-    start_tone(1, freqIndex1);
-    start_tone(2, freqIndex2);
-    delay();
-    stop_tone(0);
-    stop_tone(1);
-    stop_tone(2);
-}
  
-
-int run()
-{
-    sid_base[23] = 7;
-    sid_base[22] = 10;
-    while (1) {
-        uint8_t i;
-        for (i = 0; i < 8; i++) {
-            playOneTone(i);
-        }
-        delay();
-        
-        play_three_tones(0, 2, 5);
-        play_three_tones(2, 5, 7);
-        play_three_tones(1, 2, 5);
-        play_three_tones(0, 2, 5);
-        play_three_tones(0, 2, 4);
-        play_three_tones(0, 2, 5);
-        delay();
-    }
-    return 0;
-}
-
 
 
 void play_bomb() {
-
+	play_one_tone(3);
 }
 
 void play_dynamite() {
-
+	play_one_tone(2);
 }
 
 void play_press() {
-
+	play_one_tone(1);
 }
 
 void play_explode() {
-
+	play_one_tone(0);
 }

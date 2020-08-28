@@ -58,7 +58,6 @@ void gameloop () {
 void main(void) {
 	int i;
 
-	sound_init();
 	load_font();
 
 	clrscr();
@@ -73,6 +72,8 @@ void main(void) {
 		clrscr();
 		
 		draw_container();
+
+		sound_init();
 
 		while(!gameover){
 			gameloop();
