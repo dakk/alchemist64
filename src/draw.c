@@ -2,6 +2,7 @@
 #include <conio.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "sound.h"
 #include "logic.h"
@@ -167,7 +168,7 @@ void draw_initialscreen() {
 
 	clrscr();
 
-	textcolor(1);
+	textcolor(255);
 
 	gotoxy(0,1);
 	printf("   _____ _     _             _     _   \n");
@@ -175,21 +176,20 @@ void draw_initialscreen() {
 	printf("  |     | |  _|   | -_|     | |_ -|  _|\n");
 	printf("  |__|__|_|___|_|_|___|_|_|_|_|___|_|  \n");
 	
-	// cputsxy(14, 3, "alchemist64");
+	textcolor(2);
+	cputsxy(11, 6, "2020 davide gessa");
 	
 	textcolor(TEXTCOLOR);
-	cputsxy(6, 9, "highscore");
+	cputsxy(6, 11, "highscore");
 	textcolor(TEXTCOLOR2);
 	sprintf(c, "%d", highscore);
-	cputsxy(32, 9, c);
+	cputsxy(32, 11, c);
 
 	textcolor(TEXTCOLOR);
-	cputsxy(6, 11, "controls");
+	cputsxy(6, 13, "controls");
 	textcolor(TEXTCOLOR2);
-	cputsxy(24, 11, "wad - space");
+	cputsxy(24, 13, "wad - space");
 
-	textcolor(2);
-	cputsxy(5, 18, "created by davide (dakk) gessa");
 
 	textcolor(TEXTCOLOR);
 	cputsxy(19, 23, "press f1 to start...");
@@ -201,14 +201,14 @@ void draw_initialscreen() {
 			if (cgetc() == 0x85) 
 				break;
 
-		cputcxy(6+j-1,15, ' ');
-		cputcxy(6+j-1,16, ' ');
+		cputcxy(6+j-1,18, ' ');
+		cputcxy(6+j-1,19, ' ');
 
 		for(i=0;i<14;i++) 
-			draw_custom(6 + i*2 + j, 15, i+1);
+			draw_custom(6 + i*2 + j, 18, i+1);
 
-		cputcxy(6+2*14+j,15, ' ');
-		cputcxy(6+2*14+j,16, ' ');
+		cputcxy(6+2*14+j,18, ' ');
+		cputcxy(6+2*14+j,19, ' ');
 
 		if (dir == 1) j++; else j--;
 		if (j >= 5) {
