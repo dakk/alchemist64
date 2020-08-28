@@ -23,7 +23,7 @@ void generate_nextblock() {
 	curblock[1] = nextblock[1];
 	curblock_rot = 0;
 
-	if (rand() % 25 == 30)
+	if (rand() % 40 == 25)
 		nextblock[0] = (char) (rand() % 3) + 12;
 	else
 		nextblock[0] = (char) (rand() % limit) + 1;

@@ -5,12 +5,12 @@
 #define TEXTCOLOR 	7
 #define TEXTCOLOR2 	4
 #define GRIDCOLOR 	6
+#define BORDERCOLOR 2
 
 #define GRID_PADDING_Y	5
 #define GRID_PADDING_X  1
 #define CELL_SIZE	2
 
-// void draw_game_grid(void);
 void draw_curblock(void);
 void draw_info(void);
 void draw_container(void);

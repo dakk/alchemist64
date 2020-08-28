@@ -6,41 +6,50 @@
 
 
 void gameloop () {
-	char cc;
+	char cc = 'x';
 
 	draw_curblock();
 	draw_info();
 
-	// do {	draw_game_grid(); } 
 	while(update());
 	
 	draw_info();
 
 	if (gameover)
 		return;
-	
+
+
 	do {
+		if(!kbhit()) continue;
+
 		cc = cgetc();
 		
 		switch(cc) {
 			case 'd':
-				if (curblock_pos < GRID_WIDTH - 2)
+				if (curblock_pos < GRID_WIDTH - 2) {
 					curblock_pos ++;
+					draw_curblock();
+				}
 				break;
+
 			case 'a':
-				if (curblock_pos > 0)
+				if (curblock_pos > 0) {
 					curblock_pos --;
+					draw_curblock();
+				}
 				break;
+
 			case 'w':
 				curblock_rot = (curblock_rot+1)%4;
+				draw_curblock();
 				break;
+
 			case ' ':
 				drop_curblock();
 				generate_nextblock();
 				break;
 			
 		}
-		draw_curblock();
 	} while(cc != ' ');
 }
 
@@ -50,12 +59,13 @@ void main(void) {
 	load_font();
 
 	clrscr();
-	bordercolor(BACKGROUND);
 	bgcolor(BACKGROUND);
 
 	while(1) {
+		bordercolor(BORDERCOLOR);
 		draw_initialscreen();
 
+		bordercolor(BACKGROUND);
 		new_game ();
 		clrscr();
 		
