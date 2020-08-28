@@ -3,6 +3,7 @@
 
 // https://stackoverflow.com/questions/40950140/how-to-include-a-sid-file-into-a-cc65-program-on-a-c64 
 // music will be played along the game using interrupts; sound effects in the main thread
+// idea: usare una canzone reggae tipo quella con le trombette o sattamassagana
  
 uint16_t freqs[8] = {
     0x22cd,
