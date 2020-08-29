@@ -8,6 +8,7 @@
 #include "logic.h"
 #include "draw.h"
 #include "data.h"
+#include "plat.h"
 
 char vtable[][4] = {
 	{64,65,96,97},
@@ -28,14 +29,10 @@ char vtable[][4] = {
 };
 
 void draw_custom(int x, int y, char v) {
-	COLOUR_RAM[y*40+x] = colors[0][vtable[v-1][0]+64];
-	SCREEN_RAM[y*40+x] = vtable[v-1][0]+64;
-	COLOUR_RAM[y*40+x+1] = colors[0][vtable[v-1][1]+64];
-	SCREEN_RAM[y*40+x+1] = vtable[v-1][1]+64;
-	COLOUR_RAM[(y+1)*40+x] = colors[0][vtable[v-1][2]+64];
-	SCREEN_RAM[(y+1)*40+x] = vtable[v-1][2]+64;
-	COLOUR_RAM[(y+1)*40+x+1] = colors[0][vtable[v-1][3]+64];
-	SCREEN_RAM[(y+1)*40+x+1] = vtable[v-1][3]+64;
+	pdrawcxy(x,y,vtable[v-1][0]+64);
+	pdrawcxy(x+1,y,vtable[v-1][1]+64);
+	pdrawcxy(x,y+1,vtable[v-1][2]+64);
+	pdrawcxy(x+1,y+1,vtable[v-1][3]+64);
 }
 
 
@@ -90,6 +87,8 @@ void draw_container () {
 	revers(0);	
 
 	textcolor(6);
+
+#ifdef __C64__
 	SCREEN_RAM[GRID_PADDING_X] = 86+64;
 	for(i=1; i < 1 + (GRID_WIDTH) * CELL_SIZE;i++)
 		SCREEN_RAM[GRID_PADDING_X+i] = 88+64;
@@ -104,6 +103,7 @@ void draw_container () {
 		SCREEN_RAM[(i)*40+GRID_PADDING_X] = 89+64;
 	for(i=1; i < 1 + (GRID_HEIGHT) * CELL_SIZE+1+GRID_PADDING_Y;i++)
 		SCREEN_RAM[(i)*40+GRID_PADDING_X+(GRID_WIDTH*CELL_SIZE)+1] = 121+64;
+#endif
 }
 
 void draw_info () {
