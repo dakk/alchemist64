@@ -167,7 +167,7 @@ void draw_initialscreen() {
 	printf("  |__|__|_|___|_|_|___|_|_|_|_|___|_|  \n");
 	
 	textcolor(2);
-	cputsxy(11, 6, "2020 davide gessa");
+	cputsxy(11, 6, "2021 davide gessa");
 	
 	textcolor(TEXTCOLOR);
 	cputsxy(6, 11, "highscore");
