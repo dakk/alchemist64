@@ -5,10 +5,18 @@ An opensource remake of freealchemist for C64.
 ![Gameplay](https://github.com/dakk/alchemist64/raw/master/media/gameplay.gif)
 
 
-## Build and run
+## Build
+
+To build alchemist64 you need the cc65 C compiler; a prebuilt binary is also
+included in this repo.
 
 ```bash
 make
+```
+
+## Run
+
+```bash
 x64 alchemist64.c64
 ```
 
