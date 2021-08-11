@@ -1,6 +1,6 @@
 # Alchemist64
 
-An opensource remake of freealchemist.
+An opensource remake of freealchemist for C64.
 
 ![Gameplay](https://github.com/dakk/alchemist64/raw/master/media/gameplay.gif)
 
