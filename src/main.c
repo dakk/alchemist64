@@ -2,7 +2,7 @@
 #include <conio.h>
 #include "logic.h"
 #include "draw.h"
-#include "data.h"
+#include "plat.h"
 #include "sound.h"
 
 
@@ -58,7 +58,7 @@ void gameloop () {
 void main(void) {
 	int i;
 
-	load_font();
+	pinit();
 
 	clrscr();
 	bgcolor(BACKGROUND);
