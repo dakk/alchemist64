@@ -56,8 +56,6 @@ void gameloop () {
 
 
 void main(void) {
-	int i;
-
 	pinit();
 
 	clrscr();
