@@ -1,11 +1,13 @@
 # Alchemist64
 
-An opensource remake of freealchemist for C64.
+An opensource remake of freealchemist for Commodore64 and CommanderX16.
 
 ![Gameplay](https://github.com/dakk/alchemist64/raw/master/media/gameplay.gif)
 
 
-## Build
+## Commodore64
+
+### Build
 
 To build alchemist64 you need the cc65 C compiler; a prebuilt binary is also
 included in this repo.
@@ -14,11 +16,28 @@ included in this repo.
 make
 ```
 
-## Run
+### Run
 
 ```bash
 x64 alchemist64.c64
 ```
+
+## CommanderX16
+### Build
+
+To build alchemist64 you need the cc65 C compiler; a prebuilt binary is also
+included in this repo.
+
+```bash
+make -f Makefile.cx16
+```
+
+### Run
+
+```bash
+x16emu -prg alchemist64.cx16 -run
+```
+
 
 
 ## License
