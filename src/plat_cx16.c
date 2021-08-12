@@ -20,8 +20,9 @@ void pinit() {
 	for(i = 0; i < CHARSET_COUNT; ++i) {
 		vpoke(*pData++, pRam + i);
 	}
+	vera_layer_enable(0b10);
 
-	*vConf = 0x28;
+	*vConf = 0b0101000;
 }
 
 
