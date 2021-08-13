@@ -9,15 +9,14 @@
 #define gfx_address  0x4000
 
 void pinit() {
-	unsigned char i;
-	const char *pData;
-	unsigned char *pRam = (unsigned char *) 0xF800;
-	unsigned char *vConf = (unsigned char *) 0x9f34;
+	short i = 0;
+	const u8_t *pData = &charset[0][0];
+	u8_t *pRam = (u8_t *) 0xF800;
+	u8_t *vConf = (u8_t *) 0x9f34;
 
 	videomode(VIDEOMODE_40COL);
 
-	pData = &charset[0][0];
-	for(i = 0; i < CHARSET_COUNT; ++i) {
+	for(i; i < CHARSET_COUNT; i++) {
 		vpoke(*pData++, pRam + i);
 	}
 	vera_layer_enable(0b10);
@@ -26,7 +25,7 @@ void pinit() {
 }
 
 
-void pdrawcxy(unsigned char x, unsigned char y, unsigned char c) {
+void pdrawcxy(u8_t x, u8_t y, u8_t c) {
 	vpoke(c, y*256+x*2);
 	vpoke(colors[0][c], y*256+x*2+1);
 }
