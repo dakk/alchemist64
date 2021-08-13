@@ -9,10 +9,10 @@
 #define gfx_address  0x4000
 
 void pinit() {
-	int i;
+	unsigned char i;
 	const char *pData;
-	unsigned char *pRam = (char *) 0xF800;
-	unsigned char *vConf = (char *) 0x9f34;
+	unsigned char *pRam = (unsigned char *) 0xF800;
+	unsigned char *vConf = (unsigned char *) 0x9f34;
 
 	videomode(VIDEOMODE_40COL);
 
@@ -26,7 +26,7 @@ void pinit() {
 }
 
 
-void pdrawcxy(int x, int y, char c) {
+void pdrawcxy(unsigned char x, unsigned char y, unsigned char c) {
 	vpoke(c, y*256+x*2);
 	vpoke(colors[0][c], y*256+x*2+1);
 }

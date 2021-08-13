@@ -10,7 +10,7 @@
 #include "data.h"
 #include "plat.h"
 
-char vtable[][4] = {
+u8_t vtable[][4] = {
 	{64,65,96,97},
 	{66,67,98,99},
 	{68,69,100,101},
@@ -28,7 +28,7 @@ char vtable[][4] = {
 	{94,95,126,127},
 };
 
-void draw_custom(int x, int y, char v) {
+void draw_custom(u8_t x, u8_t y, u8_t v) {
 	pdrawcxy(x,y,vtable[v-1][0]+64);
 	pdrawcxy(x+1,y,vtable[v-1][1]+64);
 	pdrawcxy(x,y+1,vtable[v-1][2]+64);
@@ -36,7 +36,7 @@ void draw_custom(int x, int y, char v) {
 }
 
 
-void draw_cell (int x, int y, char v) {
+void draw_cell (u8_t x, u8_t y, u8_t v) {
 	if (v == 0) {
 		cputcxy(x, y, ' ');
 		cputcxy(x+1, y, ' ');
@@ -48,12 +48,12 @@ void draw_cell (int x, int y, char v) {
 	draw_custom(x, y, v);
 }
 
-void draw_grid_cell (int x, int y) {
+void draw_grid_cell (u8_t x, u8_t y) {
 	draw_cell((GRID_PADDING_X+x)*CELL_SIZE, GRID_PADDING_Y+(y+1)*CELL_SIZE, grid[y][x]);
 }
 
 void draw_curblock() {
-	char a,b,c,d;
+	u8_t a,b,c,d;
 	
 	cclearxy (GRID_PADDING_X+1, 1, GRID_WIDTH * CELL_SIZE);
 	cclearxy (GRID_PADDING_X+1, 2, GRID_WIDTH * CELL_SIZE);
@@ -74,7 +74,7 @@ void draw_curblock() {
 }
 
 void draw_container () {
-	int i;
+	u8_t i;
 	
 	textcolor(GRIDCOLOR);
 	revers(1);
@@ -97,9 +97,9 @@ void draw_container () {
 }
 
 void draw_info () {
-	char c[14];
-	int i;
-	int j;
+	u8_t c[14];
+	u8_t i = 0;
+	u8_t j = 0;
 
 	textcolor(TEXTCOLOR);
 	cputsxy(26, 3, "next");
@@ -134,8 +134,7 @@ void draw_info () {
 	sprintf(c, "elements (%d)", elements);
 	cputsxy(26, 16, c);
 
-	j=0;
-	for(i=0;i<elements;i++) {
+	for(i;i<elements;i++) {
 		if (i % 5 == 0)
 			j++;
 		draw_custom(28 + i*2 - (j-1)*10, 15+j*2, i+1);
@@ -151,10 +150,10 @@ void draw_gameover() {
 }
 
 void draw_initialscreen() {
-	char c[8];
-	int i;
-	int j;
-	int dir = 0;
+	u8_t c[8];
+	u8_t i;
+	u8_t j = 0;
+	u8_t dir = 1;
 
 	clrscr();
 
@@ -184,26 +183,24 @@ void draw_initialscreen() {
 	textcolor(TEXTCOLOR);
 	cputsxy(19, 23, "press f1 to start...");
 
-	j = 0;
-	dir = 1;
 	while (1) {
 		if (kbhit())
 			if (cgetc() == 0x85) 
 				break;
 
-		cputcxy(6+j-1,18, ' ');
-		cputcxy(6+j-1,19, ' ');
+		cputcxy(6+j-6,18, ' ');
+		cputcxy(6+j-6,19, ' ');
 
 		for(i=0;i<14;i++) 
-			draw_custom(6 + i*2 + j, 18, i+1);
+			draw_custom(6 + i*2 + j - 5, 18, i+1);
 
-		cputcxy(6+2*14+j,18, ' ');
-		cputcxy(6+2*14+j,19, ' ');
+		cputcxy(6+2*14+j - 5,18, ' ');
+		cputcxy(6+2*14+j - 5,19, ' ');
 
 		if (dir == 1) j++; else j--;
-		if (j >= 5) {
-			dir = -1; 
-		} else if (j <= -5) {
+		if (j >= 10) {
+			dir = 0; 
+		} else if (j == 0) {
 			dir = 1;
 		}
 	}

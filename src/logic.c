@@ -6,18 +6,18 @@
 #include "draw.h"
 #include "sound.h"
 
-char grid[GRID_HEIGHT][GRID_WIDTH];
+u8_t grid[GRID_HEIGHT][GRID_WIDTH];
 int score;
-int gameover;
+u8_t gameover;
 time_t start_time;
 int elapsed;
 int highscore = 0;
-char limit;
-char elements;
-char nextblock[2];
-char curblock[2];
-int curblock_rot;
-int curblock_pos = GRID_WIDTH/2-1;
+u8_t limit;
+u8_t elements;
+u8_t nextblock[2];
+u8_t curblock[2];
+u8_t curblock_rot;
+u8_t curblock_pos = GRID_WIDTH/2-1;
 
 void generate_nextblock() {
 	curblock[0] = nextblock[0];
@@ -31,11 +31,11 @@ void generate_nextblock() {
 	nextblock[1] = (char) (rand() % limit) + 1;
 }
 
-int on_board(int x, int y) {
+u8_t on_board(int x, int y) {
 	return x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT;
 }
 
-int test(int x, int y, int dx1, int dy1, int dx2, int dy2, char t) {
+u8_t test(int x, int y, int dx1, int dy1, int dx2, int dy2, char t) {
 	return on_board(x+dx1,y+dy1) && on_board(x+dx2,y+dy2) && grid[y+dy1][x+dx1] == t && grid[y+dy2][x+dx2] == t;
 }
 

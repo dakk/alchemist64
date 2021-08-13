@@ -7,7 +7,7 @@
 
 
 void gameloop () {
-	char cc = 'x';
+	u8_t cc = 'x';
 
 	draw_curblock();
 	draw_info();

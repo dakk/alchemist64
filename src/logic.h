@@ -5,17 +5,19 @@
 #define GRID_HEIGHT 	8
 #define GRID_WIDTH 		10
 
-extern int gameover;
+#include "plat.h"
+
+extern u8_t gameover;
 extern int elapsed;
 extern int highscore;
 extern int score;
-extern char limit;
-extern char elements;
-extern char nextblock[2];
-extern char curblock[2];
-extern int curblock_rot;
-extern int curblock_pos;
-extern char grid[GRID_HEIGHT][GRID_WIDTH];
+extern u8_t limit;
+extern u8_t elements;
+extern u8_t nextblock[2];
+extern u8_t curblock[2];
+extern u8_t curblock_rot;
+extern u8_t curblock_pos;
+extern u8_t grid[GRID_HEIGHT][GRID_WIDTH];
 
 int update(void);
 void drop_curblock(void);

@@ -1,8 +1,7 @@
 #ifndef SOUND_H__
 #define SOUND_H__
 
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
+#include "plat.h"
 
 void sound_init(void);
 

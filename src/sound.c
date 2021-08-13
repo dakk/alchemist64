@@ -5,7 +5,7 @@
 // music will be played along the game using interrupts; sound effects in the main thread
 // idea: usare una canzone reggae tipo quella con le trombette o sattamassagana
  
-uint16_t freqs[8] = {
+u16_t freqs[8] = {
     0x22cd,
     0x2710,
     0x2bd8,
@@ -16,17 +16,17 @@ uint16_t freqs[8] = {
     0x459a
 };
 
-uint8_t* sid_base = (char*) 0xd400;
+u8_t* sid_base = (u8_t*) 0xd400;
 
 
-void set_volume(uint8_t volume)
+void set_volume(u8_t volume)
 {
     sid_base[24] = volume | (1 << 4);
 }
  
 void sound_init()
 {
-    uint8_t i = 0;
+    u8_t i = 0;
     for (i = 0; i < 24; i++) sid_base[i] = 0;
     set_volume(15);
 
@@ -35,56 +35,54 @@ void sound_init()
     sid_base[22] = 10;
 }
  
-void set_freq(uint8_t voice, uint16_t freqIndex)
+void set_freq(u8_t voice, u16_t freqIndex)
 {
-    uint16_t freq = freqs[freqIndex];
+    u16_t freq = freqs[freqIndex];
     sid_base[7 * voice] = freq & 0xff;
     sid_base[7 * voice + 1] = freq >> 8;
 }
  
-void set_adsr(uint8_t voice, uint8_t attack, uint8_t decay, uint8_t sustain, uint8_t release)
+void set_adsr(u8_t voice, u8_t attack, u8_t decay, u8_t sustain, u8_t release)
 {
     sid_base[7 * voice + 5] = (attack << 4) | decay;
     sid_base[7 * voice + 6] = (sustain << 4) | release;
 }
  
-void start_triangle(uint8_t voice)
+void start_triangle(u8_t voice)
 {
     sid_base[7 * voice + 4] = (1 << 4) | 1;
 }
  
-void stop_triangle(uint8_t voice)
+void stop_triangle(u8_t voice)
 {
     sid_base[7 * voice + 4] = 1 << 4;
 }
  
 void delay()
 {
-    long i;
+    u16_t i;
     for (i = 0; i < 500; i++);
 }
  
-void start_tone(uint8_t voice, uint8_t freqIndex)
+void start_tone(u8_t voice, u8_t freqIndex)
 {
     set_freq(voice, freqIndex);
     set_adsr(voice, 2, 1, 15, 1);
     start_triangle(voice);
 }
  
-void stop_tone(uint8_t voice)
+void stop_tone(u8_t voice)
 {
     stop_triangle(voice);
 }
  
-void play_one_tone(uint8_t freqIndex)
+void play_one_tone(u8_t freqIndex)
 {
     start_tone(0, freqIndex);
     delay();
     stop_tone(0);
 }
  
- 
-
 
 void play_bomb() {
 	play_one_tone(3);

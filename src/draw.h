@@ -11,11 +11,13 @@
 #define GRID_PADDING_X  1
 #define CELL_SIZE	2
 
+#include "plat.h"
+
 void draw_curblock(void);
 void draw_info(void);
 void draw_container(void);
 void draw_gameover(void);
 void draw_initialscreen(void);
-void draw_grid_cell(int, int);
+void draw_grid_cell(u8_t, u8_t);
 
 #endif
