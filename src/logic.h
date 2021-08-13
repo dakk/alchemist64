@@ -8,9 +8,9 @@
 #include "plat.h"
 
 extern u8_t gameover;
-extern int elapsed;
-extern int highscore;
-extern int score;
+extern unsigned int elapsed;
+extern unsigned int highscore;
+extern unsigned int score;
 extern u8_t limit;
 extern u8_t elements;
 extern u8_t nextblock[2];
@@ -19,7 +19,7 @@ extern u8_t curblock_rot;
 extern u8_t curblock_pos;
 extern u8_t grid[GRID_HEIGHT][GRID_WIDTH];
 
-int update(void);
+unsigned short update(void);
 void drop_curblock(void);
 void generate_nextblock(void);
 void new_game(void);

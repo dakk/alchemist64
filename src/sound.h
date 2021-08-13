@@ -4,10 +4,11 @@
 #include "plat.h"
 
 void sound_init(void);
+void play_tone(u8_t);
 
-void play_bomb(void);
-void play_dynamite(void);
-void play_press(void);
-void play_explode(void);
+#define TONE_EXPLODE 0
+#define TONE_BOMB 3
+#define TONE_DYNAMITE 2
+#define TONE_PRESS 1
 
 #endif

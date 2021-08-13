@@ -10,92 +10,78 @@ u16_t freqs[8] = {
     0x2710,
     0x2bd8,
     0x2e74,
-    0x3424,
-    0x3a87,
-    0x41b2,
-    0x459a
+    // 0x3424,
+    // 0x3a87,
+    // 0x41b2,
+    // 0x459a
 };
 
 u8_t* sid_base = (u8_t*) 0xd400;
 
 
-void set_volume(u8_t volume)
-{
-    sid_base[24] = volume | (1 << 4);
-}
+// void set_volume(u8_t volume)
+// {
+//     sid_base[24] = volume | (1 << 4);
+// }
  
 void sound_init()
 {
     u8_t i = 0;
-    for (i = 0; i < 24; i++) sid_base[i] = 0;
-    set_volume(15);
+    for (i; i < 24; i++) sid_base[i] = 0;
+    
+    // Set volume
+    sid_base[24] = 15 | (1 << 4);
 
 
     sid_base[23] = 7;
     sid_base[22] = 10;
 }
  
-void set_freq(u8_t voice, u16_t freqIndex)
+// void set_freq(u8_t voice, u16_t freqIndex)
+// {
+//     u16_t freq = freqs[freqIndex];
+//     sid_base[7 * voice] = freq & 0xff;
+//     sid_base[7 * voice + 1] = freq >> 8;
+// }
+
+ 
+// void start_triangle(u8_t voice)
+// {
+//     sid_base[7 * voice + 4] = (1 << 4) | 1;
+// }
+ 
+// void stop_triangle(u8_t voice)
+// {
+//     sid_base[7 * voice + 4] = 1 << 4;
+// }
+ 
+// void set_adsr(u8_t voice, u8_t attack, u8_t decay, u8_t sustain, u8_t release)
+// {
+//     sid_base[7 * voice + 5] = (attack << 4) | decay;
+//     sid_base[7 * voice + 6] = (sustain << 4) | release;
+// }
+ 
+ 
+void play_tone(u8_t freqIndex)
 {
+    u16_t i = 0;
+
+    // Set frequency
     u16_t freq = freqs[freqIndex];
-    sid_base[7 * voice] = freq & 0xff;
-    sid_base[7 * voice + 1] = freq >> 8;
-}
- 
-void set_adsr(u8_t voice, u8_t attack, u8_t decay, u8_t sustain, u8_t release)
-{
-    sid_base[7 * voice + 5] = (attack << 4) | decay;
-    sid_base[7 * voice + 6] = (sustain << 4) | release;
-}
- 
-void start_triangle(u8_t voice)
-{
-    sid_base[7 * voice + 4] = (1 << 4) | 1;
-}
- 
-void stop_triangle(u8_t voice)
-{
-    sid_base[7 * voice + 4] = 1 << 4;
-}
- 
-void delay()
-{
-    u16_t i;
-    for (i = 0; i < 500; i++);
-}
- 
-void start_tone(u8_t voice, u8_t freqIndex)
-{
-    set_freq(voice, freqIndex);
-    set_adsr(voice, 2, 1, 15, 1);
-    start_triangle(voice);
-}
- 
-void stop_tone(u8_t voice)
-{
-    stop_triangle(voice);
-}
- 
-void play_one_tone(u8_t freqIndex)
-{
-    start_tone(0, freqIndex);
-    delay();
-    stop_tone(0);
-}
- 
+    sid_base[0] = freq & 0xff;
+    sid_base[1] = freq >> 8;
 
-void play_bomb() {
-	play_one_tone(3);
-}
+    // Set adsr
+    sid_base[5] = (2 << 4) | 1;
+    sid_base[6] = (15 << 4) | 1;
 
-void play_dynamite() {
-	play_one_tone(2);
-}
+    // Start triangle
+    sid_base[4] = (1 << 4) | 1;
 
-void play_press() {
-	play_one_tone(1);
-}
+    // Delay
+    for (i; i < 500; i++);
 
-void play_explode() {
-	play_one_tone(0);
+    // Stop triangle
+    sid_base[4] = 1 << 4;
 }
+ 

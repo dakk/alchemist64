@@ -38,10 +38,8 @@ void draw_custom(u8_t x, u8_t y, u8_t v) {
 
 void draw_cell (u8_t x, u8_t y, u8_t v) {
 	if (v == 0) {
-		cputcxy(x, y, ' ');
-		cputcxy(x+1, y, ' ');
-		cputcxy(x+1, y+1, ' ');
-		cputcxy(x, y+1, ' ');
+		cputsxy(x, y, "  ");
+		cputsxy(x, y+1, "  ");
 		return;
 	}
 
@@ -103,7 +101,20 @@ void draw_info () {
 
 	textcolor(TEXTCOLOR);
 	cputsxy(26, 3, "next");
+	cputsxy(26, 7, "score");
+	cputsxy(26, 13, "time (m)");
+	sprintf(c, "elements (%d)", elements);
+	cputsxy(26, 16, c);
+	cputsxy(26, 10, "highscore");
+
+
 	textcolor(TEXTCOLOR2);
+	sprintf(c, "%d", score);
+	cputsxy(28, 8, c);
+	sprintf(c, "%d", highscore);
+	cputsxy(28, 11, c);
+	sprintf(c, "%d", elapsed);
+	cputsxy(28, 14, c);
 
 	// revers(1);
 	textcolor(nextblock[0]);
@@ -111,28 +122,6 @@ void draw_info () {
 	textcolor(nextblock[1]);
 	draw_cell(30, 4, nextblock[1]);
 	// revers(0);
-
-	textcolor(TEXTCOLOR);
-	cputsxy(26, 7, "score");
-	textcolor(TEXTCOLOR2);
-	sprintf(c, "%d", score);
-	cputsxy(28, 8, c);
-
-	textcolor(TEXTCOLOR);
-	cputsxy(26, 10, "highscore");
-	textcolor(TEXTCOLOR2);
-	sprintf(c, "%d", highscore);
-	cputsxy(28, 11, c);
-
-	textcolor(TEXTCOLOR);
-	cputsxy(26, 13, "time (m)");
-	textcolor(TEXTCOLOR2);
-	sprintf(c, "%d", elapsed);
-	cputsxy(28, 14, c);
-
-	textcolor(TEXTCOLOR);
-	sprintf(c, "elements (%d)", elements);
-	cputsxy(26, 16, c);
 
 	for(i;i<elements;i++) {
 		if (i % 5 == 0)
@@ -170,32 +159,27 @@ void draw_initialscreen() {
 	
 	textcolor(TEXTCOLOR);
 	cputsxy(6, 11, "highscore");
+	cputsxy(6, 13, "controls");
+	cputsxy(19, 23, "press f1 to start...");
+
 	textcolor(TEXTCOLOR2);
 	sprintf(c, "%d", highscore);
 	cputsxy(32, 11, c);
-
-	textcolor(TEXTCOLOR);
-	cputsxy(6, 13, "controls");
-	textcolor(TEXTCOLOR2);
 	cputsxy(24, 13, "wad - space");
-
-
-	textcolor(TEXTCOLOR);
-	cputsxy(19, 23, "press f1 to start...");
 
 	while (1) {
 		if (kbhit())
 			if (cgetc() == 0x85) 
 				break;
 
-		cputcxy(6+j-6,18, ' ');
-		cputcxy(6+j-6,19, ' ');
+		cputcxy(j,18, ' ');
+		cputcxy(j,19, ' ');
 
 		for(i=0;i<14;i++) 
-			draw_custom(6 + i*2 + j - 5, 18, i+1);
+			draw_custom(1 + i*2 + j, 18, i+1);
 
-		cputcxy(6+2*14+j - 5,18, ' ');
-		cputcxy(6+2*14+j - 5,19, ' ');
+		cputcxy(29 + j,18, ' ');
+		cputcxy(29 + j,19, ' ');
 
 		if (dir == 1) j++; else j--;
 		if (j >= 10) {

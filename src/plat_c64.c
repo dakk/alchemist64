@@ -14,9 +14,7 @@
 
 void pinit() {
 	unsigned short i = 0;
-	const unsigned char *pData = &charset[0][0];
-
-	memset(SCREEN_RAM, ' ', 40*25);
+	const u8_t *pData = &charset[0][0];
 
 	CIA2.ddra |= 0x03;
 	CIA2.pra = (CIA2.pra & 0xfc) | (3-(VIC_BASE_RAM / 0x4000));
@@ -33,8 +31,8 @@ void pinit() {
 		CHARMAP_RAM[i] = *pData++;
 }
 
-void pdrawcxy(unsigned char x, unsigned char y, unsigned char c) {
-	COLOUR_RAM[y*40+x] = colors[0][c];
+void pdrawcxy(u8_t x, u8_t y, u8_t c) {
+	COLOUR_RAM[y*40+x] = colors[0][c-128];
 	SCREEN_RAM[y*40+x] = c;
 }
 

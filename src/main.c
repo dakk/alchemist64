@@ -28,14 +28,14 @@ void gameloop () {
 		switch(cc) {
 			case 'd':
 				if (curblock_pos < GRID_WIDTH - 2) {
-					curblock_pos ++;
+					++curblock_pos;
 					draw_curblock();
 				}
 				break;
 
 			case 'a':
 				if (curblock_pos > 0) {
-					curblock_pos --;
+					--curblock_pos;
 					draw_curblock();
 				}
 				break;
@@ -58,7 +58,6 @@ void gameloop () {
 void main(void) {
 	pinit();
 
-	clrscr();
 	bgcolor(BACKGROUND);
 
 	while(1) {

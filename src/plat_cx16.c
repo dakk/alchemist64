@@ -27,7 +27,7 @@ void pinit() {
 
 void pdrawcxy(u8_t x, u8_t y, u8_t c) {
 	vpoke(c, y*256+x*2);
-	vpoke(colors[0][c], y*256+x*2+1);
+	vpoke(colors[0][c - 128], y*256+x*2+1);
 }
 
 
