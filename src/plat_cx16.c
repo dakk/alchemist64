@@ -2,6 +2,7 @@
 
 #include <cx16.h>
 #include <conio.h>
+#include <time.h>
 #include "plat.h"
 #include "data.h"
 
@@ -28,6 +29,11 @@ void pinit() {
 void pdrawcxy(u8_t x, u8_t y, u8_t c) {
 	vpoke(c, y*256+x*2);
 	vpoke(colors[0][c - 128], y*256+x*2+1);
+}
+
+
+unsigned long ptime(void) {
+	return time(NULL);
 }
 
 

@@ -1,6 +1,5 @@
 #include <unistd.h>
 #include <stdlib.h>
-#include <time.h>
 
 #include "logic.h"
 #include "draw.h"
@@ -8,11 +7,11 @@
 
 
 u8_t grid[GRID_HEIGHT][GRID_WIDTH];
-unsigned int score;
-u8_t gameover;
-time_t start_time;
-unsigned int elapsed;
-unsigned int highscore = 0;
+u8_t score;
+u8_t gameover = 1;
+unsigned long start_time;
+u8_t elapsed;
+u8_t highscore = 0;
 u8_t limit;
 u8_t elements;
 u8_t nextblock[2];
@@ -32,13 +31,21 @@ void generate_nextblock() {
 	nextblock[1] = (u8_t) (rand() % limit) + 1;
 }
 
-u8_t on_board(int x, int y) {
+u8_t on_board(u8_t x, u8_t y) {
 	return x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT;
 }
 
-u8_t test(int x, int y, int dx1, int dy1, int dx2, int dy2, u8_t t) {
-	return on_board(x+dx1,y+dy1) && on_board(x+dx2,y+dy2) && grid[y+dy1][x+dx1] == t && grid[y+dy2][x+dx2] == t;
+u8_t test(u8_t x, u8_t y, u8_t t) {
+	return on_board(x,y) && grid[y][x] == t;
 }
+
+// u8_t test2(u8_t x, u8_t y, short dx1, short dy1, short dx2, short dy2, u8_t t) {
+// 	return on_board(x+dx1,y+dy1) 
+// 		&& on_board(x+dx2,y+dy2) 
+// 		&& grid[y+dy1][x+dx1] == t 
+// 		&& grid[y+dy2][x+dx2] == t;
+// }
+
 
 void change_cell(u8_t x, u8_t y, u8_t newvalue) {
 	if (!on_board (x, y)) 
@@ -63,13 +70,15 @@ void explode(u8_t x, u8_t y, u8_t t){
 }
 
 // Move down blocks, explode when combination is found, return 0 if no update occured
-unsigned short update() {
-	short x,y;
-	unsigned short r = 0;
+u16_t update() {
+	u8_t x,y;
+	u16_t r = 0;
 
+	if (gameover)
+		return 0;
 	
 	// Move down
-	for(y=GRID_HEIGHT-2; y >= 0; y--) {
+	for(y=0; y <= GRID_HEIGHT-2; y++) {
 		for(x=0; x < GRID_WIDTH; x++) {
 			if (grid[y][x] != 0 && grid[y+1][x] == 0) {
 				grid[y+1][x] = grid[y][x];
@@ -130,13 +139,20 @@ unsigned short update() {
 
 				default:
 					if (grid[y][x] != 0 && grid[y][x] < 12) {
-						char t = grid[y][x];
-						if (test (x, y, 0, 1, 0, -1, t) 
-						|| test (x, y, 1, 0, -1, 0, t) 
-						|| test (x, y, 1, 0, 0, 1, t) 
-						|| test (x, y, -1, 0, 0, -1, t) 
-						|| test (x, y, -1, 0, 0, 1, t) 
-						|| test (x, y, 1, 0, 0, -1, t)) {
+						u8_t t = grid[y][x];
+						if (
+							(test (x, y+1, t) && test (x, y-1, t)) 
+							||
+							(test (x+1, y, t) && test (x-1, y, t)) 
+							|| 
+							(test (x+1, y, t) && test (x, y+1, t))
+							||
+							(test (x-1, y, t) && test (x, y-1, t))
+							|| 
+							(test (x-1, y, t) && test (x, y+1, t))
+							||						
+							(test (x+1, y, t) && test (x, y-1, t))
+						) {
 							// upgrade our center piece
 							if (t < 12)
 								grid[y][x] ++;
@@ -174,7 +190,7 @@ unsigned short update() {
 		}
 	}
 	
-	elapsed = (time(NULL) - start_time) / 60;
+	elapsed = (ptime() - start_time) / 60;
 	return r;
 }
 
@@ -200,7 +216,7 @@ void new_game() {
 
 	generate_nextblock();
 
-	start_time = time(NULL);
+	start_time = ptime();
 	elapsed = 0;
 }
 

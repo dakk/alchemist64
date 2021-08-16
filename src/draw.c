@@ -28,7 +28,7 @@ u8_t vtable[][4] = {
 	{94,95,126,127},
 };
 
-void draw_custom(u8_t x, u8_t y, u8_t v) {
+void __fastcall__ draw_custom(u8_t x, u8_t y, u8_t v) {
 	pdrawcxy(x,y,vtable[v-1][0]+64);
 	pdrawcxy(x+1,y,vtable[v-1][1]+64);
 	pdrawcxy(x,y+1,vtable[v-1][2]+64);
@@ -36,7 +36,7 @@ void draw_custom(u8_t x, u8_t y, u8_t v) {
 }
 
 
-void draw_cell (u8_t x, u8_t y, u8_t v) {
+void __fastcall__ draw_cell (u8_t x, u8_t y, u8_t v) {
 	if (v == 0) {
 		cputsxy(x, y, "  ");
 		cputsxy(x, y+1, "  ");
@@ -46,7 +46,7 @@ void draw_cell (u8_t x, u8_t y, u8_t v) {
 	draw_custom(x, y, v);
 }
 
-void draw_grid_cell (u8_t x, u8_t y) {
+void __fastcall__ draw_grid_cell (u8_t x, u8_t y) {
 	draw_cell((GRID_PADDING_X+x)*CELL_SIZE, GRID_PADDING_Y+(y+1)*CELL_SIZE, grid[y][x]);
 }
 
@@ -103,17 +103,17 @@ void draw_info () {
 	cputsxy(26, 3, "next");
 	cputsxy(26, 7, "score");
 	cputsxy(26, 13, "time (m)");
-	sprintf(c, "elements (%d)", elements);
-	cputsxy(26, 16, c);
+	cputsxy(26, 16, "elements ( )");
+	cputcxy(36, 16, elements+'0');
 	cputsxy(26, 10, "highscore");
 
 
 	textcolor(TEXTCOLOR2);
-	sprintf(c, "%d", score);
+	utoa(score, c, 10);
 	cputsxy(28, 8, c);
-	sprintf(c, "%d", highscore);
+	utoa(highscore, c, 10);
 	cputsxy(28, 11, c);
-	sprintf(c, "%d", elapsed);
+	utoa(elapsed, c, 10);
 	cputsxy(28, 14, c);
 
 	// revers(1);
@@ -149,10 +149,10 @@ void draw_initialscreen() {
 	textcolor(255);
 
 	gotoxy(0,1);
-	printf("   _____ _     _             _     _   \n");
-	printf("  |  _  | |___| |_ ___ _____|_|___| |_ \n");
-	printf("  |     | |  _|   | -_|     | |_ -|  _|\n");
-	printf("  |__|__|_|___|_|_|___|_|_|_|_|___|_|  \n");
+	puts("   _____ _     _             _     _   ");
+	puts("  |  _  | |___| |_ ___ _____|_|___| |_ ");
+	puts("  |     | |  _|   | -_|     | |_ -|  _|");
+	puts("  |__|__|_|___|_|_|___|_|_|_|_|___|_|  ");
 	
 	textcolor(2);
 	cputsxy(11, 6, "2021 davide gessa");
@@ -163,7 +163,7 @@ void draw_initialscreen() {
 	cputsxy(19, 23, "press f1 to start...");
 
 	textcolor(TEXTCOLOR2);
-	sprintf(c, "%d", highscore);
+	utoa(highscore, c, 10);
 	cputsxy(32, 11, c);
 	cputsxy(24, 13, "wad - space");
 
@@ -172,14 +172,14 @@ void draw_initialscreen() {
 			if (cgetc() == 0x85) 
 				break;
 
-		cputcxy(j,18, ' ');
-		cputcxy(j,19, ' ');
+		cputcxy(j, 18, ' ');
+		cputcxy(j, 19, ' ');
 
 		for(i=0;i<14;i++) 
 			draw_custom(1 + i*2 + j, 18, i+1);
 
-		cputcxy(29 + j,18, ' ');
-		cputcxy(29 + j,19, ' ');
+		cputcxy(29 + j, 18, ' ');
+		cputcxy(29 + j, 19, ' ');
 
 		if (dir == 1) j++; else j--;
 		if (j >= 10) {
